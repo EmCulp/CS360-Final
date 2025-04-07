@@ -1,5 +1,6 @@
 package booksystem;
 
+import static spark.Spark.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -8,11 +9,36 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    private final DatabaseConnection databaseConnection;
+
+    // Inject the DatabaseConnection bean via constructor
+
+    public Main() {
+        this.databaseConnection = new DatabaseConnection();
+    }
+
     public static void main(String[] args){
+        port(4567);
+
+        get("/", (req, res)->{
+           return "<h1>Welcome to BookSurvey!</h1><form method='post' action='/submit'>" +
+                   "<input type='text' name='name' placeholder='Your name'>" +
+                   "<input type='submit' value='Submit'>" +
+                   "</form>";
+        });
+
+        post("/submit", (req, res)->{
+            String name = req.queryParams("name");
+            return "<h2>Thanks, " + name + "! We'll suggest some books soon.</h2>";
+        });
+    }
+
+    public void runApplication() {
         Scanner scanner = new Scanner(System.in);
 
-        try{
-            Connection connection = DatabaseConnection.getConnection();
+        try {
+            Connection connection = databaseConnection.getConnection();
 
             User user = new User(1, "john_doe");
 
@@ -25,19 +51,18 @@ public class Main {
             List<Book> recommendedBooks = recommendationService.recommendBooks(user);
 
             System.out.println("Recommended Books for you: ");
-            for(Book book : recommendedBooks){
-                System.out.println(book.getTitle() + " by " +book.getAuthor());
+            for (Book book : recommendedBooks) {
+                System.out.println(book.getTitle() + " by " + book.getAuthor());
             }
 
-
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             scanner.close();
         }
     }
 
-    private static List<SurveyResponses> collectSurveyResponses(Scanner scanner){
+    private List<SurveyResponses> collectSurveyResponses(Scanner scanner) {
         List<SurveyResponses> responses = new ArrayList<>();
 
         System.out.println("What genre do you prefer?");
@@ -47,7 +72,7 @@ public class Main {
         return responses;
     }
 
-    public static void storeSurveyResponses(Connection connection, User user, List<SurveyResponses> responses) {
+    public void storeSurveyResponses(Connection connection, User user, List<SurveyResponses> responses) {
         String insertSQL = "INSERT INTO SurveyResponses (user_id, question_id, response) VALUES (?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
@@ -64,5 +89,4 @@ public class Main {
             e.printStackTrace();
         }
     }
-
 }
