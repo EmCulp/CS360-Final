@@ -66,6 +66,15 @@ input[type="radio"], input[type="checkbox"] {
     font-weight: bold;
 }
 
+.answer{
+    display: flex;
+    gap: 20px;
+}
+
+input[type="radio"]{
+    margin-right: 5px;
+}
+
 .answer-options input[type="checkbox"]{
     accent-color: #6B8E23;
     cursor: pointer;
