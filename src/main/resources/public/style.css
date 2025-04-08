@@ -41,20 +41,24 @@ header{
 .answer-option{
     display: flex;
     align-items: center;
+    justify-content: flex-start;
 }
 
 .answer-option input{
-    margin-right: 10px
+    margin-right: 10px;
 }
 
 .answer-option label{
     display: inline-block;
+    line-height: normal;
+    margin: 0;
     vertical-align: middle;
-    padding-top: 5px;
+    padding-top: 1px;
 }
 
 input[type="radio"], input[type="checkbox"] {
     margin-right: 10px;
+    vertical-align: middle;
 }
 
 button[type="submit"] {
