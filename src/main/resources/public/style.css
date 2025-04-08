@@ -37,17 +37,33 @@ select:focus{
     border-color: #6B8E23;
 }
 
-input[type="radio"], input[type="checkbox"] {
+input[type="checkbox"] {
     margin-right: 10px;
     vertical-align: middle;
     accent-color: #6B8E23;
 }
 
+input[type="radio"]{
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
 .answer-option{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-
     gap: 5px; /* Adjust the gap between options for closer spacing */
+}
+
+.a-option{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px; /* Adjust the gap between options for closer spacing */
+}
+
+.a-option supPro{
+    display: inline-block;
+    white-space: nowrap;
+    width: auto;
 }
 
 /*Chat and I are flipped...*/
@@ -71,7 +87,17 @@ input[type="radio"], input[type="checkbox"] {
     gap: 20px;
 }
 
-input[type="radio"]{
+.a{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.answer-option input[type="radio"]{
+    margin-right: 5px;
+}
+
+.a-option input[type="radio"]{
     margin-right: 5px;
 }
 
