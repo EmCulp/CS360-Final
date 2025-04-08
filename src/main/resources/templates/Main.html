@@ -12,104 +12,109 @@
     </header>
 
     <div class="survey-container">
-        <form action="/submit" method="POST">
-            <div class="question">
-                <label>What genre do you prefer?</label><br>
-                <div class="answers">
-                    <div class="answer-option">
-                        <input type="radio" id="fiction" name="genre" value="Fiction">
-                        <label for="fiction">Fiction</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="fable" name="genre" value="Fable">
-                        <label for="fable">Fable</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="drama" name="genre" value="Drama">
-                        <label for="drama">Drama</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="fairy-tale" name="genre" value="Fairy Tale">
-                        <label for="fairy-tale">Fairy Tale</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="fantasy" name="genre" value="Fantasy">
-                        <label for="fantasy">Fantasy</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="fiction-in-verse" name="genre" value="Fiction In Verse">
-                        <label for="fiction-in-verse">Fiction In Verse</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="folklore" name="genre" value="Folklore">
-                        <label for="folklore">Folklore</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="historical-fiction" name="genre" value="Historical Fiction">
-                        <label for="historical-fiction">Historical Fiction</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Horror" name="genre" value="Horror">
-                        <label for="Horror">Horror</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Humor" name="genre" value="Humor">
-                        <label for="Humor">Humor</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Legend" name="genre" value="Legend">
-                        <label for="Legend">Legend</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Mystery" name="genre" value="Mystery">
-                        <label for="Mystery">Mystery</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Mythology" name="genre" value="Mythology">
-                        <label for="Mythology">Mythology</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Poetry" name="genre" value="Poetry">
-                        <label for="Poetry">Poetry</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="realistic-fiction" name="genre" value="Realistic-Fiction">
-                        <label for="realistic-fiction">Realistic Fiction</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="science-fiction" name="genre" value="Science Fiction">
-                        <label for="science-fiction">Science Fiction</label><br></div>
-                    <div class="answer-option">
-                        <input type="radio" id="short-story" name="genre" value="Short Story">
-                        <label for="short-story">Short Story</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="tall-tale" name="genre" value="Tall Tale">
-                        <label for="tall-tale">Tall Tale</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="biography/autobiography" name="genre" value="Biography/Autobiography">
-                        <label for="biography/autobiography">Biography/Autobiography</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="essay" name="genre" value="Essay">
-                        <label for="essay">Essay</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="Narrative-Nonfiction" name="genre" value="Narrative Nonfiction">
-                        <label for="Narrative-Nonfiction">Narrative Nonfiction</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="nonfiction" name="genre" value="Nonfiction">
-                        <label for="nonfiction">Nonfiction</label><br>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" id="speech" name="genre" value="Speech">
-                        <label for="speech">Speech</label><br>
-                    </div>
-                </div>
+        <div class="question">
+            <label for="genre">What genre do you prefer?</label>
+        </div>
+        <select id="genre" name="genre">
+            <option value="Biography/Autobiography">Biography/Autobiography</option>
+            <option value="Comic">Comic</option>
+            <option value="Drama">Drama</option>
+            <option value="Essay">Essay</option>
+            <option value="Fable">Fable</option>
+            <option value="FairyTale">Fairy Tale</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Fiction">Fiction</option>
+            <option value="FictionInVerse">Fiction In Verse</option>
+            <option value="Folklore">Folklore</option>
+            <option value="Historical Fiction">Historical Fiction</option>
+            <option value="Horror">Horror</option>
+            <option value="Humor">Humor</option>
+            <option value="Legend">Legend</option>
+            <option value="Magna">Magna</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Mythology">Mythology</option>
+            <option value="NarrativeNonfiction">Narrative Nonfiction</option>
+            <option value="Nonfiction">Nonfiction</option>
+            <option value="Poetry">Poetry</option>
+            <option value="RealisticFiction">Realistic Fiction</option>
+            <option value="ScienceFiction">Science Fiction</option>
+            <option value="ShortStory">Short Story</option>
+            <option value="Speech">Speech</option>
+            <option value="TallTale">Tall Tale</option>
+        </select>
+        <div class="question">
+            <label for="tones">Select the tones of the book:</label><br>
+        </div>
+        <div class="answer-option">
+            <div class="answer-options">
+                <input type="checkbox" id="cheerful" name="tones" value="Cheerful">
+                <label for="cheerful">Cheerful</label><br>
             </div>
-        </form>
+            <div class="answer-options">
+                <input type="checkbox" id="dry" name="tones" value="Dry">
+                <label for="dry">Dry</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="assertive" name="tones" value="Assertive">
+                <label for="assertive">Assertive</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="lighthearted" name="tones" value="Lighthearted">
+                <label for="lighthearted">Lighthearted</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="regretful" name="tones" value="Regretful">
+                <label for="regretful">Regretful</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="humorous" name="tones" value="Humorous">
+                <label for="humorous">Humorous</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="pessimistic" name="tones" value="Pessimistic">
+                <label for="pessimistic">Pessimistic</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="nostalgic" name="tones" value="Nostalgic">
+                <label for="nostalgic">Nostalgic</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="melancholic" name="tones" value="Melancholic">
+                <label for="melancholic">Melancholic</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="facetious" name="tones" value="Facetious">
+                <label for="facetious">Facetious</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="joyful" name="tones" value="Joyful">
+                <label for="joyful">Joyful</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="sarcastic" name="tones" value="Sarcastic">
+                <label for="sarcastic">Sarcastic</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="arrogant" name="tones" value="Arrogant">
+                <label for="arrogant">Arrogant</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="persuasive" name="tones" value="Persuasive">
+                <label for="persuasive">Persuasive</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="uneasy" name="tones" value="Uneasy">
+                <label for="uneasy">Uneasy</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="reverent" name="tones" value="Reverent">
+                <label for="reverent">Reverent</label><br>
+            </div>
+            <div class="answer-options">
+                <input type="checkbox" id="inspirational" name="tones" value="Inspirational">
+                <label for="inspirational">Inspirational</label><br>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -22,43 +22,58 @@ header{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.question{
-    margin-bottom: 10px;
+select{
+    padding:10px;
+    font-size: 16px;
+    background-color: #F4EDE4;
+    border: 1px solid #3E2A47;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px; /* Add space between the dropdown and the question */
 }
 
-.question label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.answers{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.answer-option{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.answer-option input{
-    margin-right: 10px;
-}
-
-.answer-option label{
-    display: inline-block;
-    line-height: normal;
-    margin: 0;
-    vertical-align: middle;
-    padding-top: 1px;
+select:focus{
+    outline: none;
+    border-color: #6B8E23;
 }
 
 input[type="radio"], input[type="checkbox"] {
     margin-right: 10px;
     vertical-align: middle;
+    accent-color: #6B8E23;
+}
+
+.answer-option{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 5px; /* Adjust the gap between options for closer spacing */
+}
+
+/*Chat and I are flipped...*/
+.answer-options{
+    display: flex;
+    align-items: center; /* Vertically align checkbox and label */
+    gap: 5px;
+}
+
+.question{
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.question label{
+    font-weight: bold;
+}
+
+.answer-options input[type="checkbox"]{
+    accent-color: #6B8E23;
+    cursor: pointer;
+    margin-right: 8px; /* Adjust space between checkbox and label */
+}
+
+.answer-options input[type="checkbox"]:hover{
+    background-color: #F4EDE4;
 }
 
 button[type="submit"] {
