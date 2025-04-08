@@ -60,6 +60,19 @@ input[type="radio"]{
     gap: 5px;
 }
 
+.an-op{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 100%;
+}
+
+.an-op .answer-option{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 .a-option{
     display: flex;
     align-items: center;
