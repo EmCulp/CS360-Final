@@ -169,14 +169,24 @@
                 <label for="chardev">Character Development</label>
             </div>
         </div>
-        <div class="question"><lavel>How much romance do you prefer in a book?</lavel></div>
+        <div class="question"><label for="romance">How much romance do you prefer in a book?</label></div>
         <select id="romance" name="romance">
             <option value="none">None</option>
             <option value="A little">A little</option>
             <option value="A good bit">A good bit</option>
             <option value="A lot">A lot</option>
         </select>
-        
+        <div class="question"><label>Do you like books with a lot of twists and surprises, or do you prefer a predictable storyline?</label></div>
+        <div class="a">
+            <div class="answer-option">
+                <input type="radio" id="twists" name="twists/predict" value="twists">
+                <label for="twists">Twists and Surprises</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" id="predict" name="twists/predict" value="predict">
+                <label for="predict">Predictable</label>
+            </div>
+        </div>
     </div>
 </body>
 </html>
