@@ -54,6 +54,12 @@ input[type="radio"]{
     gap: 5px; /* Adjust the gap between options for closer spacing */
 }
 
+.ans-options{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 5px;
+}
+
 .a-option{
     display: flex;
     align-items: center;
