@@ -1,6 +1,13 @@
 package booksystem;
 
 import static spark.Spark.*;
+
+import spark.ModelAndView;
+import spark.template.mustache.MustacheTemplateEngine;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,17 +28,12 @@ public class Main {
     public static void main(String[] args){
         port(4567);
 
-        get("/", (req, res)->{
-           return "<h1>Welcome to BookSurvey!</h1><form method='post' action='/submit'>" +
-                   "<input type='text' name='name' placeholder='Your name'>" +
-                   "<input type='submit' value='Submit'>" +
-                   "</form>";
+        staticFileLocation("/public");
+
+        get("/", (req, res) -> {
+            return new MustacheTemplateEngine().render(new ModelAndView(null, "Main.html"));
         });
 
-        post("/submit", (req, res)->{
-            String name = req.queryParams("name");
-            return "<h2>Thanks, " + name + "! We'll suggest some books soon.</h2>";
-        });
     }
 
     public void runApplication() {
@@ -89,4 +91,5 @@ public class Main {
             e.printStackTrace();
         }
     }
+
 }

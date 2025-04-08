@@ -1,0 +1,72 @@
+body{
+    background-color: #B4966E;
+    color: #3E2A47;
+    font-family: 'Merriweather', serif;
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    text-align: center;
+    padding: 20px;
+    background-color: #E0C7A1;
+    color: #3E2A47;
+}
+
+.survey-container{
+    background-color: #F4EDE4;
+    padding: 20px;
+    border-radius:10px;
+    max-width: 600px;
+    margin: 30px auto 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.question{
+    margin-bottom: 10px;
+}
+
+.question label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.answers{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.answer-option{
+    display: flex;
+    align-items: center;
+}
+
+.answer-option input{
+    margin-right: 10px
+}
+
+.answer-option label{
+    display: inline-block;
+    vertical-align: middle;
+    padding-top: 5px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+button[type="submit"] {
+    background-color: #6B8E23;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #4F5B2B;
+}
