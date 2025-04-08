@@ -17,7 +17,7 @@ header{
     background-color: #F4EDE4;
     padding: 20px;
     border-radius:10px;
-    max-width: 600px;
+    max-width: 750px;
     margin: 30px auto 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -55,22 +55,24 @@ input[type="radio"]{
 }
 
 .a-option{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    align-items: center;
     gap: 5px; /* Adjust the gap between options for closer spacing */
 }
 
-.a-option supPro{
-    display: inline-block;
+.a-option label{
     white-space: nowrap;
-    width: auto;
+    margin: 0;
 }
 
 /*Chat and I are flipped...*/
 .answer-options{
     display: flex;
     align-items: center; /* Vertically align checkbox and label */
-    gap: 5px;
+}
+
+.answer-option label{
+    white-space: nowrap;
 }
 
 .question{
@@ -89,7 +91,7 @@ input[type="radio"]{
 
 .a{
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 15px;
 }
 
