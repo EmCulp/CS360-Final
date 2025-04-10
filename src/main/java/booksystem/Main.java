@@ -34,6 +34,10 @@ public class Main {
             return new MustacheTemplateEngine().render(new ModelAndView(null, "Main.html"));
         });
 
+        get("/results", (req, res) -> {
+            return new MustacheTemplateEngine().render(new ModelAndView(null, "results.html"));
+        });
+
     }
 
     public void runApplication() {

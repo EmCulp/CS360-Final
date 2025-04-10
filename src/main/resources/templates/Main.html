@@ -419,15 +419,83 @@
 
             const results = {};
 
-            const genre = document.querySelector('input[name="genre"]:checked');
+            const genre = document.getElementById('genre');
             if(genre){
                 results.genre = genre.value;
             }
 
+            const selectedTones = [];
+            const toneCheckboxes = document.querySelectorAll('input[name="tones"]:checked');
+            toneCheckboxes.forEach(checkbox => {
+                selectedTones.push(checkbox.value);
+            });
+            results.tones = selectedTones;
+
+            const pace = document.querySelector('input[name="pace"]:checked');
+            if(pace){
+                results.pace = pace.value;
+            }
+
+            const protagonist = document.querySelector('input[name="protagonist"]:checked');
+            if(protagonist){
+                results.protagonist = protagonist.value;
+            }
+
+            const end = document.querySelector('input[name="ending"]:checked');
+            if(end){
+                results.end = end.value;
+            }
+
+            const acd = document.querySelector('input[name="a/cd"]:checked');
+            if(acd){
+                results.acd = acd.value;
+            }
+
+            const romance = document.getElementById('romance');
+            if(romance){
+                results.romance = romance.value;
+            }
+
+            const tp = document.querySelector('input[name="twists/predict"]:checked');
+            if(tp){
+                results.tp = tp.value;
+            }
+
+            const supernatural = document.getElementById('supernatural');
+            if(supernatural){
+                results.supernatural = supernatural.value;
+            }
+
+            const selectedSet = [];
+            const setCheckboxes = document.querySelectorAll('input[name="setting"]:checked');
+            setCheckboxes.forEach(checkbox => {
+                selectedSet.push(checkbox.value);
+            });
+            results.setting = selectedSet;
+
+            const pages = document.querySelector('input[name="pages"]:checked');
+            if(pages){
+                results.pages = pages.value;
+            }
+
+            const selectedStyles = [];
+            const styleBoxes = document.querySelectorAll('input[name="style"]:checked');
+            styleBoxes.forEach(checkbox => {
+                selectedStyles.push(checkbox.value);
+            });
+            results.style = selectedStyles;
+
+            const selectedThemes = [];
+            const themeBoxes = document.querySelectorAll('input[name="theme"]:checked');
+            themeBoxes.forEach(checkbox => {
+                selectedThemes.push(checkbox.value);
+            });
+            results.theme = selectedThemes;
+
             //store the results in sessionStorage
             sessionStorage.setItem('surveyResults', JSON.stringify(results));
             //redirect to the results page
-            window.location.href = "results.html";
+            window.location.href = "/results";
         }
     </script>
 </body>
