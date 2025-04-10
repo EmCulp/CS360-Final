@@ -12,405 +12,423 @@
     </header>
 
     <div class="survey-container">
-        <div class="question">
-            <label for="genre">What genre do you prefer?</label>
-        </div>
-        <select id="genre" name="genre">
-            <option value="Biography/Autobiography">Biography/Autobiography</option>
-            <option value="Comic">Comic</option>
-            <option value="Drama">Drama</option>
-            <option value="Essay">Essay</option>
-            <option value="Fable">Fable</option>
-            <option value="FairyTale">Fairy Tale</option>
-            <option value="Fantasy">Fantasy</option>
-            <option value="Fiction">Fiction</option>
-            <option value="FictionInVerse">Fiction In Verse</option>
-            <option value="Folklore">Folklore</option>
-            <option value="Historical Fiction">Historical Fiction</option>
-            <option value="Horror">Horror</option>
-            <option value="Humor">Humor</option>
-            <option value="Legend">Legend</option>
-            <option value="Magna">Magna</option>
-            <option value="Mystery">Mystery</option>
-            <option value="Mythology">Mythology</option>
-            <option value="NarrativeNonfiction">Narrative Nonfiction</option>
-            <option value="Nonfiction">Nonfiction</option>
-            <option value="Poetry">Poetry</option>
-            <option value="RealisticFiction">Realistic Fiction</option>
-            <option value="ScienceFiction">Science Fiction</option>
-            <option value="ShortStory">Short Story</option>
-            <option value="Speech">Speech</option>
-            <option value="TallTale">Tall Tale</option>
-        </select>
-        <div class="question">
-            <label>Select the tones of the book:</label><br>
-        </div>
-        <div class="answer-option">
-            <div class="answer-options">
-                <input type="checkbox" id="hopeful" name="tones" value="Hopeful">
-                <label for="hopeful">Hopeful</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="tense" name="tones" value="Tense">
-                <label for="tense">Tense</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="romantic" name="tones" value="Romantic">
-                <label for="romantic">Romantic</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="dark" name="tones" value="Dark">
-                <label for="dark">Dark</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="whimsical" name="tones" value="Whimsical">
-                <label for="whimsical">Whimsical</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="mysterious" name="tones" value="Mysterious">
-                <label for="mysterious">Mysterious</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="cynical" name="tones" value="Cynical">
-                <label for="cynical">Cynical</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="suspenseful" name="tones" value="Suspenseful">
-                <label for="suspenseful">Suspenseful</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="grim" name="tones" value="Grim">
-                <label for="grim">Grim</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="reflective" name="tones" value="Reflective">
-                <label for="reflective">Reflective</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="eerie" name="tones" value="Eerie">
-                <label for="eerie">Eerie</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="dramatic" name="tones" value="Dramatic">
-                <label for="dramatic">Dramatic</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="playful" name="tones" value="Playful">
-                <label for="playful">Playful</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="sincere" name="tones" value="Sincere">
-                <label for="sincere">Sincere</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="uplifting" name="tones" value="Uplifting">
-                <label for="uplifting">Uplifting</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="somber" name="tones" value="Somber">
-                <label for="somber">Somber</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="gripping" name="tones" value="Gripping">
-                <label for="gripping">Gripping</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="lyrical" name="tones" value="Lyrical">
-                <label for="lyrical">Lyrical</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="adventurous" name="tones" value="Adventurous">
-                <label for="adventurous">Adventurous</label>
-            </div>
-        </div>
-        <div class="question">
-            <label>Do you prefer fast-paced or slow-paced books?</label>
-        </div>
-        <div class="a">
+        <form id="surveyForm" onsubmit="saveResults(event)">
+            <div class="question"><label for="genre">What genre do you prefer?</label></div>
+            <select id="genre" name="genre">
+                <option value="Biography/Autobiography">Biography/Autobiography</option>
+                <option value="Comic">Comic</option>
+                <option value="Drama">Drama</option>
+                <option value="Essay">Essay</option>
+                <option value="Fable">Fable</option>
+                <option value="FairyTale">Fairy Tale</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Fiction">Fiction</option>
+                <option value="FictionInVerse">Fiction In Verse</option>
+                <option value="Folklore">Folklore</option>
+                <option value="Historical Fiction">Historical Fiction</option>
+                <option value="Horror">Horror</option>
+                <option value="Humor">Humor</option>
+                <option value="Legend">Legend</option>
+                <option value="Magna">Magna</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Mythology">Mythology</option>
+                <option value="NarrativeNonfiction">Narrative Nonfiction</option>
+                <option value="Nonfiction">Nonfiction</option>
+                <option value="Poetry">Poetry</option>
+                <option value="RealisticFiction">Realistic Fiction</option>
+                <option value="ScienceFiction">Science Fiction</option>
+                <option value="ShortStory">Short Story</option>
+                <option value="Speech">Speech</option>
+                <option value="TallTale">Tall Tale</option>
+            </select>
+            <div class="question"><label>Select the tones of the book:</label><br></div>
             <div class="answer-option">
-                <input type="radio" id="fast" name="pace" value="fast">
-                <label for="fast">Fast-Paced</label><br>
+                <div class="answer-options">
+                    <input type="checkbox" id="hopeful" name="tones" value="Hopeful">
+                    <label for="hopeful">Hopeful</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="tense" name="tones" value="Tense">
+                    <label for="tense">Tense</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="romantic" name="tones" value="Romantic">
+                    <label for="romantic">Romantic</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="dark" name="tones" value="Dark">
+                    <label for="dark">Dark</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="whimsical" name="tones" value="Whimsical">
+                    <label for="whimsical">Whimsical</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="mysterious" name="tones" value="Mysterious">
+                    <label for="mysterious">Mysterious</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="cynical" name="tones" value="Cynical">
+                    <label for="cynical">Cynical</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="suspenseful" name="tones" value="Suspenseful">
+                    <label for="suspenseful">Suspenseful</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="grim" name="tones" value="Grim">
+                    <label for="grim">Grim</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="reflective" name="tones" value="Reflective">
+                    <label for="reflective">Reflective</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="eerie" name="tones" value="Eerie">
+                    <label for="eerie">Eerie</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="dramatic" name="tones" value="Dramatic">
+                    <label for="dramatic">Dramatic</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="playful" name="tones" value="Playful">
+                    <label for="playful">Playful</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="sincere" name="tones" value="Sincere">
+                    <label for="sincere">Sincere</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="uplifting" name="tones" value="Uplifting">
+                    <label for="uplifting">Uplifting</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="somber" name="tones" value="Somber">
+                    <label for="somber">Somber</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="gripping" name="tones" value="Gripping">
+                    <label for="gripping">Gripping</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="lyrical" name="tones" value="Lyrical">
+                    <label for="lyrical">Lyrical</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="adventurous" name="tones" value="Adventurous">
+                    <label for="adventurous">Adventurous</label>
+                </div>
             </div>
-            <div class="answer-option">
-                <input type="radio" id="slow" name="pace" value="slow">
-                <label for="slow">Slow-Paced</label><br>
+            <div class="question"><label>Do you prefer fast-paced or slow-paced books?</label></div>
+            <div class="a">
+                <div class="answer-option">
+                    <input type="radio" id="fast" name="pace" value="fast">
+                    <label for="fast">Fast-Paced</label><br>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="slow" name="pace" value="slow">
+                    <label for="slow">Slow-Paced</label><br>
+                </div>
             </div>
-        </div>
-        <div class="question"><label>What type of protagonist do you prefer?</label></div>
-        <div class="a">
-            <div class="a-option">
-                <input type="radio" id="hero" name="protagonist" value="hero">
-                <label for="hero">Hero</label>
+            <div class="question"><label>What type of protagonist do you prefer?</label></div>
+            <div class="a">
+                <div class="a-option">
+                    <input type="radio" id="hero" name="protagonist" value="hero">
+                    <label for="hero">Hero</label>
+                </div>
+                <div class="a-option">
+                    <input type="radio" id="antiheroes" name="protagonist" value="antiheroes">
+                    <label for="antiheroes">Antiheroes</label>
+                </div>
+                <div class="a-option">
+                    <input type="radio" id="protagonist" name="protagonist" value="protagonist">
+                    <label for="protagonist">Protagonist</label>
+                </div>
+                <div class="a-option">
+                    <input type="radio" id="supPro" name="protagonist" value="supPro">
+                    <label for="supPro">Supporting Protagonists</label>
+                </div>
             </div>
-            <div class="a-option">
-                <input type="radio" id="antiheroes" name="protagonist" value="antiheroes">
-                <label for="antiheroes">Antiheroes</label>
+            <div class="question"><label>Would you prefer a book with a happy or sad ending?</label></div>
+            <div class="a">
+                <div class="answer-option">
+                    <input type="radio" id="happy" name="ending" value="happy">
+                    <label for="happy">Happy</label><br>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="sad" name="ending" value="sad">
+                    <label for="sad">Sad</label><br>
+                </div>
             </div>
-            <div class="a-option">
-                <input type="radio" id="protagonist" name="protagonist" value="protagonist">
-                <label for="protagonist">Protagonist</label>
+            <div class="question"><label>Do you like books with a lot of action, or do you prefer character development?</label></div>
+            <div class="a">
+                <div class="answer-option">
+                    <input type="radio" id="action" name="a/cd" value="action">
+                    <label for="action">Action</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="chardev" name="a/cd" value="chardev">
+                    <label for="chardev">Character Development</label>
+                </div>
             </div>
-            <div class="a-option">
-                <input type="radio" id="supPro" name="protagonist" value="supPro">
-                <label for="supPro">Supporting Protagonists</label>
+            <div class="question"><label for="romance">How much romance do you prefer in a book?</label></div>
+            <select id="romance" name="romance">
+                <option value="none">None</option>
+                <option value="A little">A little</option>
+                <option value="A good bit">A good bit</option>
+                <option value="A lot">A lot</option>
+            </select>
+            <div class="question"><label>Do you like books with a lot of twists and surprises, or do you prefer a predictable storyline?</label></div>
+            <div class="a">
+                <div class="answer-option">
+                    <input type="radio" id="twists" name="twists/predict" value="twists">
+                    <label for="twists">Twists and Surprises</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="predict" name="twists/predict" value="predict">
+                    <label for="predict">Predictable</label>
+                </div>
             </div>
-        </div>
-        <div class="question"><label>Would you prefer a book with a happy or sad ending?</label></div>
-        <div class="a">
-            <div class="answer-option">
-                <input type="radio" id="happy" name="ending" value="happy">
-                <label for="happy">Happy</label><br>
+            <div class="question"><label for="supernatural">How do you feel about books with a supernatural or fantastical element?</label></div>
+            <select id="supernatural" name="supernatural">
+                <option value="love">I love them - the mote magic or mystery, the better!</option>
+                <option value="occasionally">I enjoy them occasionally</option>
+                <option value="neutral">I'm neutral - it depends on the story</option>
+                <option value="realistic">I usually prefer realistic stories</option>
+                <option value="avoid">I avoid supernatural or fantastical themes</option>
+            </select>
+            <div class="question"><label>What setting do you enjoy most in a book?</label></div>
+            <div class="ans-option">
+                <div class="answer-options">
+                    <input type="checkbox" id="historical" name="setting" value="Historical">
+                    <label for="historical">Historical (e.g., Victorian era, Ancient Rome)</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="futuristic" name="setting" value="Futuristic">
+                    <label for="futuristic">Futuristic / Sci-fi worlds</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="fantasy" name="setting" value="Fantasy">
+                    <label for="fantasy">Fantasy Realms (e.g., magical kingdoms, mythical lands)</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="modern" name="setting" value="Modern">
+                    <label for="modern">Modern-day / Contemporary settings</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="small" name="setting" value="Small">
+                    <label for="small">Small towns or close-knit communities</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="big" name="setting" value="Big">
+                    <label for="big">Bid cities / Urban life</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="dystopian" name="setting" value="Dystopian">
+                    <label for="dystopian">Dystopian or post-apocalyptic worlds</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="nature" name="setting" value="Nature">
+                    <label for="nature">Nature-based / Wilderness adventures</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="otherworldly" name="setting" value="Otherworldly">
+                    <label for="otherworldly">Otherworldly / Parallel universes</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="depends" name="setting" value="Depends">
+                    <label for="depends">It depends on the plot</label>
+                </div>
             </div>
-            <div class="answer-option">
-                <input type="radio" id="sad" name="ending" value="sad">
-                <label for="sad">Sad</label><br>
+            <div class="question"><label>How long do you prefer your books to be?</label></div>
+            <div class="an-op">
+                <div class="answer-option">
+                    <input type="radio" id="vshort" name="pages" value="VeryShort">
+                    <label for="vshort">Very Short (under 150 pages)</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="short" name="pages" value="Short">
+                    <label for="short">Short (150-300 pages)</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="medium" name="pages" value="Medium">
+                    <label for="medium">Medium (300-500 pages)</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="long" name="pages" value="Long">
+                    <label for="long">Long (500-700 pages)</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="epic" name="pages" value="Epic">
+                    <label for="epic">Epic (700+ pages)</label>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" id="no" name="pages" value="NoPreference">
+                    <label for="no">No preference - story > length</label>
+                </div>
             </div>
-        </div>
-        <div class="question"><label>Do you like books with a lot of action, or do you prefer character development?</label></div>
-        <div class="a">
-            <div class="answer-option">
-                <input type="radio" id="action" name="a/cd" value="action">
-                <label for="action">Action</label>
+            <div class="question"><label>What writing style do you prefer in a book?</label></div>
+            <div class="ans-option">
+                <div class="answer-options">
+                    <input type="checkbox" id="descriptive" name="style" value="descriptive">
+                    <label for="descriptive">Descriptive and Lush - rich in imagery, sensory detail</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="concise" name="style" value="concise">
+                    <label for="concise">Concise and Straightforward - to-the-point, minimal fluff</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="flowery" name="style" value="flowery">
+                    <label for="flowery">Flowery and Poetic - lyrical and expressive language</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="conversational" name="style" value="conversational">
+                    <label for="conversational">Conversational - casual, like the author is talking to you</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="fastaction" name="style" value="fast+action">
+                    <label for="fastaction">Fast-paced and Action-Oriented - minimal exposition, lots of movement</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="r" name="style" value="reflective">
+                    <label for="r">Reflective and Thoughtful - introspective and character-focused</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="experimental" name="style" value="experimental">
+                    <label for="experimental">Experimental or Non-Linear - plays with form, timeline, or perspective</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="witty" name="style" value="witty">
+                    <label for="witty">Satirical or Witty - clever, humorous, or biting tone</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="d" name="style" value="dark">
+                    <label for="d">Dark and Atmospheric - moody, immersive, emotionally intense</label><br>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="none" name="style" value="none">
+                    <label for="none">No Preferences - I enjoy a variety of writing styles</label><br>
+                </div>
             </div>
-            <div class="answer-option">
-                <input type="radio" id="chardev" name="a/cd" value="chardev">
-                <label for="chardev">Character Development</label>
+            <div class="question"><label>Would you like to read books with themes of...</label></div>
+            <div class="ans-option">
+                <div class="answer-options">
+                    <input type="checkbox" id="adventure" name="theme" value="Adventure">
+                    <label for="adventure">Adventure - Exploring new worlds or thrilling journeys</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="love" name="theme" value="Love">
+                    <label for="love">Love/Romance - Romantic relationships and emotional connections</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="friendship" name="theme" value="Friendship">
+                    <label for="friendship">Friendship - the power of friendships and bonds between characters</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="mystery" name="theme" value="Mystery">
+                    <label for="mystery">Mystery / Thriller - unraveling secrets or solving problems</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="fant" name="theme" value="Fantasy">
+                    <label for="fant">Fantasy - Magical realms and mythical creatures</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="age" name="theme" value="Age">
+                    <label for="age">Coming of Age - Personal growth and self-discovery</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="history" name="theme" value="History">
+                    <label for="history">Historical - set in a particular historical period</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="science" name="theme" value="Science">
+                    <label for="science">Science Fiction - futuristic world or advanced technology</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="horror" name="theme" value="Horror">
+                    <label for="horror">Horror - dark, eerie, or supernatural elements</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="political" name="theme" value="Political">
+                    <label for="political">Political / Philosophical - Society, governance, or exploring deep ideas</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="issues" name="theme" value="Issues">
+                    <label for="issues">Social Issues - exploring real-world societal challenges</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="dynamics" name="theme" value="Dynamics">
+                    <label for="dynamics">Family Dynamics - relationships and conflicts with families</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="survival" name="theme" value="Survival">
+                    <label for="survival">Survival - Overcoming life-threatening situations or environments</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="humor" name="theme" value="Humor">
+                    <label for="humor">Humor - lighthearted, comedic, and fun</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="loss" name="theme" value="Loss">
+                    <label for="loss">Grief / Loss - Exploring themes of mourning and healing</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="redemption" name="theme" value="Redemption">
+                    <label for="redemption">Redemption - Characters seeking personal transformation or redemption</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="faith" name="theme" value="Faith">
+                    <label for="faith">Faith / Spirituality - Themes of belief, purpose, or the divine</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="law" name="theme" value="Law">
+                    <label for="law">Justice / Law - Focus on legal struggles or moral dilemmas</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="sports" name="theme" value="Sports">
+                    <label for="sports">Sports - competitive athletic pursuits, teamwork, and overcoming challenges</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="teamwork" name="theme" value="Teamwork">
+                    <label for="teamwork">Teamwork and Competition - Working with others to achieve a common goal or competing to be the best</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="achievement" name="theme" value="Achievement">
+                    <label for="achievement">Victory and Achievement - Overcoming obstacles to reach success</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="training" name="theme" value="Training">
+                    <label for="training">Training and Dedication - the process of hard work and discipline</label>
+                </div>
+                <div class="answer-options">
+                    <input type="checkbox" id="inspiration" name="theme" value="Inspiration">
+                    <label for="inspiration">Inspiration from Athletes - stories of athletes overcoming adversity or achieving greatness</label>
+                </div>
             </div>
-        </div>
-        <div class="question"><label for="romance">How much romance do you prefer in a book?</label></div>
-        <select id="romance" name="romance">
-            <option value="none">None</option>
-            <option value="A little">A little</option>
-            <option value="A good bit">A good bit</option>
-            <option value="A lot">A lot</option>
-        </select>
-        <div class="question"><label>Do you like books with a lot of twists and surprises, or do you prefer a predictable storyline?</label></div>
-        <div class="a">
-            <div class="answer-option">
-                <input type="radio" id="twists" name="twists/predict" value="twists">
-                <label for="twists">Twists and Surprises</label>
+
+            <div class="button-container">
+                <button type="submit">Submit</button>
             </div>
-            <div class="answer-option">
-                <input type="radio" id="predict" name="twists/predict" value="predict">
-                <label for="predict">Predictable</label>
-            </div>
-        </div>
-        <div class="question"><label for="supernatural">How do you feel about books with a supernatural or fantastical element?</label></div>
-        <select id="supernatural" name="supernatural">
-            <option value="love">I love them - the mote magic or mystery, the better!</option>
-            <option value="occasionally">I enjoy them occasionally</option>
-            <option value="neutral">I'm neutral - it depends on the story</option>
-            <option value="realistic">I usually prefer realistic stories</option>
-            <option value="avoid">I avoid supernatural or fantastical themes</option>
-        </select>
-        <div class="question"><label>What setting do you enjoy most in a book?</label></div>
-        <div class="ans-option">
-            <div class="answer-options">
-                <input type="checkbox" id="historical" name="setting" value="Historical">
-                <label for="historical">Historical (e.g., Victorian era, Ancient Rome)</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="futuristic" name="setting" value="Futuristic">
-                <label for="futuristic">Futuristic / Sci-fi worlds</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="fantasy" name="setting" value="Fantasy">
-                <label for="fantasy">Fantasy Realms (e.g., magical kingdoms, mythical lands)</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="modern" name="setting" value="Modern">
-                <label for="modern">Modern-day / Contemporary settings</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="small" name="setting" value="Small">
-                <label for="small">Small towns or close-knit communities</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="big" name="setting" value="Big">
-                <label for="big">Bid cities / Urban life</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="dystopian" name="setting" value="Dystopian">
-                <label for="dystopian">Dystopian or post-apocalyptic worlds</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="nature" name="setting" value="Nature">
-                <label for="nature">Nature-based / Wilderness adventures</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="otherworldly" name="setting" value="Otherworldly">
-                <label for="otherworldly">Otherworldly / Parallel universes</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="depends" name="setting" value="Depends">
-                <label for="depends">It depends on the plot</label>
-            </div>
-        </div>
-        <div class="question"><label>How long do you prefer your books to be?</label></div>
-        <div class="an-op">
-            <div class="answer-option">
-                <input type="radio" id="vshort" name="pages" value="VeryShort">
-                <label for="vshort">Very Short (under 150 pages)</label>
-            </div>
-            <div class="answer-option">
-                <input type="radio" id="short" name="pages" value="Short">
-                <label for="short">Short (150-300 pages)</label>
-            </div>
-            <div class="answer-option">
-                <input type="radio" id="medium" name="pages" value="Medium">
-                <label for="medium">Medium (300-500 pages)</label>
-            </div>
-            <div class="answer-option">
-                <input type="radio" id="long" name="pages" value="Long">
-                <label for="long">Long (500-700 pages)</label>
-            </div>
-            <div class="answer-option">
-                <input type="radio" id="epic" name="pages" value="Epic">
-                <label for="epic">Epic (700+ pages)</label>
-            </div>
-            <div class="answer-option">
-                <input type="radio" id="no" name="pages" value="NoPreference">
-                <label for="no">No preference - story > length</label>
-            </div>
-        </div>
-        <div class="question"><label>What writing style do you prefer in a book?</label></div>
-        <div class="ans-option">
-            <div class="answer-options">
-                <input type="checkbox" id="descriptive" name="style" value="descriptive">
-                <label for="descriptive">Descriptive and Lush - rich in imagery, sensory detail</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="concise" name="style" value="concise">
-                <label for="concise">Concise and Straightforward - to-the-point, minimal fluff</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="flowery" name="style" value="flowery">
-                <label for="flowery">Flowery and Poetic - lyrical and expressive language</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="conversational" name="style" value="conversational">
-                <label for="conversational">Conversational - casual, like the author is talking to you</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="fastaction" name="style" value="fast+action">
-                <label for="fastaction">Fast-paced and Action-Oriented - minimal exposition, lots of movement</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="r" name="style" value="reflective">
-                <label for="r">Reflective and Thoughtful - introspective and character-focused</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="experimental" name="style" value="experimental">
-                <label for="experimental">Experimental or Non-Linear - plays with form, timeline, or perspective</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="witty" name="style" value="witty">
-                <label for="witty">Satirical or Witty - clever, humorous, or biting tone</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="d" name="style" value="dark">
-                <label for="d">Dark and Atmospheric - moody, immersive, emotionally intense</label><br>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="none" name="style" value="none">
-                <label for="none">No Preferences - I enjoy a variety of writing styles</label><br>
-            </div>
-        </div>
-        <div class="question"><label>Would you like to read books with themes of...</label></div>
-        <div class="ans-option">
-            <div class="answer-options">
-                <input type="checkbox" id="adventure" name="theme" value="Adventure">
-                <label for="adventure">Adventure - Exploring new worlds or thrilling journeys</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="love" name="theme" value="Love">
-                <label for="love">Love/Romance - Romantic relationships and emotional connections</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="friendship" name="theme" value="Friendship">
-                <label for="friendship">Friendship - the power of friendships and bonds between characters</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="mystery" name="theme" value="Mystery">
-                <label for="mystery">Mystery / Thriller - unraveling secrets or solving problems</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="fant" name="theme" value="Fantasy">
-                <label for="fant">Fantasy - Magical realms and mythical creatures</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="age" name="theme" value="Age">
-                <label for="age">Coming of Age - Personal growth and self-discovery</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="history" name="theme" value="History">
-                <label for="history">Historical - set in a particular historical period</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="science" name="theme" value="Science">
-                <label for="science">Science Fiction - futuristic world or advanced technology</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="horror" name="theme" value="Horror">
-                <label for="horror">Horror - dark, eerie, or supernatural elements</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="political" name="theme" value="Political">
-                <label for="political">Political / Philosophical - Society, governance, or exploring deep ideas</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="issues" name="theme" value="Issues">
-                <label for="issues">Social Issues - exploring real-world societal challenges</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="dynamics" name="theme" value="Dynamics">
-                <label for="dynamics">Family Dynamics - relationships and conflicts with families</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="survival" name="theme" value="Survival">
-                <label for="survival">Survival - Overcoming life-threatening situations or environments</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="humor" name="theme" value="Humor">
-                <label for="humor">Humor - lighthearted, comedic, and fun</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="loss" name="theme" value="Loss">
-                <label for="loss">Grief / Loss - Exploring themes of mourning and healing</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="redemption" name="theme" value="Redemption">
-                <label for="redemption">Redemption - Characters seeking personal transformation or redemption</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="faith" name="theme" value="Faith">
-                <label for="faith">Faith / Spirituality - Themes of belief, purpose, or the divine</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="law" name="theme" value="Law">
-                <label for="law">Justice / Law - Focus on legal struggles or moral dilemmas</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="sports" name="theme" value="Sports">
-                <label for="sports">Sports - competitive athletic pursuits, teamwork, and overcoming challenges</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="teamwork" name="theme" value="Teamwork">
-                <label for="teamwork">Teamwork and Competition - Working with others to achieve a common goal or competing to be the best</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="achievement" name="theme" value="Achievement">
-                <label for="achievement">Victory and Achievement - Overcoming obstacles to reach success</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="training" name="theme" value="Training">
-                <label for="training">Training and Dedication - the process of hard work and discipline</label>
-            </div>
-            <div class="answer-options">
-                <input type="checkbox" id="inspiration" name="theme" value="Inspiration">
-                <label for="inspiration">Inspiration from Athletes - stories of athletes overcoming adversity or achieving greatness</label>
-            </div>
-        </div>
+        </form>
     </div>
+
+    <script>
+        function saveResults(event){
+            event.preventDefault();
+
+            const results = {};
+
+            const genre = document.querySelector('input[name="genre"]:checked');
+            if(genre){
+                results.genre = genre.value;
+            }
+
+            //store the results in sessionStorage
+            sessionStorage.setItem('surveyResults', JSON.stringify(results));
+            //redirect to the results page
+            window.location.href = "results.html";
+        }
+    </script>
 </body>
 </html>

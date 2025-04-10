@@ -132,16 +132,22 @@ input[type="radio"]{
     background-color: #F4EDE4;
 }
 
+.button-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 button[type="submit"] {
-    background-color: #6B8E23;
+    background-color: #A9746E;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    width: 75%;
 }
 
 button[type="submit"]:hover {
-    background-color: #4F5B2B;
+    background-color: #8B5E58;
 }
