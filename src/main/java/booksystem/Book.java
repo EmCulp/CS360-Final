@@ -1,73 +1,88 @@
 package booksystem;
 
 public class Book {
-    private String title;
-    private String author;
     private String genre;
     private String tone;
-    private String protagonistType;
-    private int length;
-    private String endingType;
+    private String pace;
+    private String protagonist;
+    private String ending;
+    private String actionDevelopment;
     private String romanceLevel;
-    private String actionOrDevelopment;
+    private String twists;
+    private String supernatural;
+    private String setting;
+    private String length;
     private String writingStyle;
-    private boolean supernatural;
     private String themes;
 
-    public Book(){
-        this.title = "";
-        this.author = "";
-        this.genre = "";
-        this.tone = "";
-        this.protagonistType = "";
-        this.length = 0;
-        this.endingType = "";
-        this.romanceLevel = "";
-        this.actionOrDevelopment = "";
-        this.writingStyle = "";
-        this.supernatural = false;
-        this.themes = "";
-
-    }
-
-    public String getTitle(){return title;}
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String getAuthor(){return author;}
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public String getGenre(){return genre;}
-    public void setGenre(String genre){
+    public Book(String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
+                String romanceLevel, String twists, String supernatural, String setting, String length,
+                String writingStyle, String themes) {
         this.genre = genre;
-    }
-    public String getTone(){return tone;}
-    public void setTone(String tone){
         this.tone = tone;
-    }
-    public String getProtagonistType(){return protagonistType;}
-    public void setProtagonistType(String protagonistType){
-        this.protagonistType = protagonistType;
-    }
-    public int getLength(){return length;}
-    public void setLength(int length){
-        this.length = length;
-    }
-    public String getEndingType(){return endingType;}
-    public void setEndingType(String endingType){
-        this.endingType = endingType;
-    }
-    public String getRomanceLevel(){return romanceLevel;}
-    public void setRomanceLevel(String romanceLevel){
+        this.pace = pace;
+        this.protagonist = protagonist;
+        this.ending = ending;
+        this.actionDevelopment = actionDevelopment;
         this.romanceLevel = romanceLevel;
+        this.twists = twists;
+        this.supernatural = supernatural;
+        this.setting = setting;
+        this.length = length;
+        this.writingStyle = writingStyle;
+        this.themes = themes;
     }
-    public String getActionOrDevelopment(){return actionOrDevelopment;}
-    public void setActionOrDevelopment(String actionOrDevelopment){this.actionOrDevelopment = actionOrDevelopment;}
-    public String getWritingStyle(){return writingStyle;}
-    public void setWritingStyle(String writingStyle){this.writingStyle = writingStyle;}
-    public boolean isSupernatural(){return supernatural;}
-    public void setSupernatural(boolean supernatural){this.supernatural = supernatural;}
-    public String getThemes(){return themes;}
-    public void setThemes(String themes){this.themes = themes;}
+
+    // Getters
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getTone() {
+        return tone;
+    }
+
+    public String getPace() {
+        return pace;
+    }
+
+    public String getProtagonist() {
+        return protagonist;
+    }
+
+    public String getEnding() {
+        return ending;
+    }
+
+    public String getActionDevelopment() {
+        return actionDevelopment;
+    }
+
+    public String getRomanceLevel() {
+        return romanceLevel;
+    }
+
+    public String getTwists() {
+        return twists;
+    }
+
+    public String getSupernatural() {
+        return supernatural;
+    }
+
+    public String getSetting() {
+        return setting;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public String getWritingStyle() {
+        return writingStyle;
+    }
+
+    public String getThemes() {
+        return themes;
+    }
 }
