@@ -58,15 +58,17 @@ public class BookFetcher {
     ));
 
     private static String mapToAllowedValue(List<String> apiValues, Set<String> allowedValues) {
+        Set<String> matched = new LinkedHashSet<>();
+
         for (String apiVal : apiValues) {
             for (String allowed : allowedValues) {
                 if (apiVal.toLowerCase().contains(allowed.toLowerCase()) ||
                         allowed.toLowerCase().contains(apiVal.toLowerCase())) {
-                    return allowed;
+                    matched.add(allowed);
                 }
             }
         }
-        return "NA";
+        return matched.isEmpty() ? "NA" : String.join(" / ", matched);
     }
 
     private static JSONObject fetchBookData(String title, String author) throws IOException{
