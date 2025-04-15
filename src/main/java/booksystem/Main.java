@@ -38,6 +38,17 @@ public class Main {
             return new MustacheTemplateEngine().render(new ModelAndView(null, "results.html"));
         });
 
+        post("/submitSurvey", (req, res)->{
+           String json = req.body();
+
+           //Parse JSON and store to DB
+            SurveyController controller = new SurveyController();
+            controller.handleSurveySubmission(json);
+
+            res.status(200);
+            return "Survey submitted successfully!";
+        });
+
     }
 
     public void runApplication() {
@@ -73,7 +84,7 @@ public class Main {
 
         System.out.println("What genre do you prefer?");
         String genreAnswer = scanner.nextLine();
-        responses.add(new SurveyResponses(1, 1, genreAnswer));
+        responses.add(new SurveyResponses(1, 1, 1, genreAnswer));
 
         return responses;
     }

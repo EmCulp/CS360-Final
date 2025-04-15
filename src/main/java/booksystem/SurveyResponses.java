@@ -6,10 +6,12 @@ public class SurveyResponses {
     private int userID;
     private int questionID;
     private String response;
+    private int answerOptionID;
 
-    public SurveyResponses(int userID, int questionID, String response){
+    public SurveyResponses(int userID, int questionID, int answerOptionID, String response){
         this.userID = userID;
         this.questionID = questionID;
+        this.answerOptionID = answerOptionID;
         this.response = response;
     }
 
@@ -27,6 +29,12 @@ public class SurveyResponses {
 
     public void setQuestionID(int questionID) {
         this.questionID = questionID;
+    }
+
+    public int getAnswerOptionID(){return answerOptionID;}
+
+    public void setAnswerOptionID(int answerOptionID) {
+        this.answerOptionID = answerOptionID;
     }
 
     public String getResponse() {

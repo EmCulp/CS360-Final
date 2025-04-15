@@ -15,6 +15,7 @@ dependencies {
     implementation("com.sparkjava:spark-template-mustache:2.7.1")
     implementation ("mysql:mysql-connector-java:8.0.28")
     implementation("ch.qos.logback:logback-classic:1.2.6")
+    implementation("com.google.code.gson:gson:2.10.1")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
