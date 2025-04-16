@@ -4,10 +4,7 @@ import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -215,12 +212,34 @@ public class BookFetcher {
         }
     }
 
+    public static List<String[]> loadBooksFromCsv(String filePath) {
+        List<String[]> books = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] tokens = line.split(",", 2);
+                if (tokens.length == 2) {
+                    books.add(new String[]{tokens[0].trim(), tokens[1].trim()});
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to read input CSV: " + e.getMessage());
+        }
+        return books;
+    }
+
     public static void main(String[] args){
+        System.out.println("BookFetcher running");
+
+        String inputFilePath = "src/main/resources/book.csv";
+        String outputFilePath = "src/main/resources/books.csv";
+
         String searchQuery = "fiction";
         String apiUrl = "https://openlibrary.org/search.json?q=" + searchQuery + "&limit=100";
 
-        try(FileWriter writer = new FileWriter("books.csv")){
+        try(FileWriter writer = new FileWriter(outputFilePath)){
             writer.write("Title,Author,Genre,Tone,Pace,Protagonist,Ending,Action/Dev,Romance,Twist,Supernatural,Setting,Length,Style,Theme\n");
+            List<String[]> books = loadBooksFromCsv(inputFilePath);
 
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
