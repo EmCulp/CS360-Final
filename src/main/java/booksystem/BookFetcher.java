@@ -99,6 +99,47 @@ public class BookFetcher {
         return text;
     }
 
+    private static String getNumberOfPages(JSONObject book){
+        if(book.has("number_of_pages")){
+            return String.valueOf(book.getInt("number_of_pages"));
+        }
+        return "NA";
+    }
+
+    private static String mapLengthByPages(int pages) {
+        if (pages < 150) {
+            return "Very Short (< 150 pages)";
+        } else if (pages < 300) {
+            return "Short (150-300 pages)";
+        } else if (pages < 500) {
+            return "Medium (300-500 pages)";
+        } else if (pages < 700) {
+            return "Long (500-700 pages)";
+        } else {
+            return "Epic (700+ pages)";
+        }
+    }
+
+    private static JSONObject fetchFirstEdition(JSONObject workDetails) throws IOException {
+        if (workDetails.has("covers")) {
+            JSONArray editions = workDetails.optJSONArray("covers"); // Not ideal, but OpenLibrary's `/works/` doesn't return edition keys directly.
+            if (editions != null && !editions.isEmpty()) {
+                String workKey = workDetails.optString("key", null);
+                if (workKey != null) {
+                    JSONObject workPage = fetchJson("https://openlibrary.org" + workKey + "/editions.json");
+                    if (workPage != null && workPage.has("entries")) {
+                        JSONArray entries = workPage.getJSONArray("entries");
+                        if (!entries.isEmpty()) {
+                            return entries.getJSONObject(0); // Grab first edition
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+
     public static void processBook(JSONObject book, FileWriter writer) throws IOException {
         try {
             String title = book.optString("title", "Unknown Title");
@@ -126,6 +167,7 @@ public class BookFetcher {
             JSONObject workDetails = fetchJson("https://openlibrary.org" + workKey + ".json");
 
             List<String> allSubjects = new ArrayList<>();
+            String numberOfPages= "NA";
             if (workDetails != null) {
                 for (String field : List.of("subjects", "subject_people", "subject_places", "subject_times")) {
                     JSONArray array = workDetails.optJSONArray(field);
@@ -137,6 +179,20 @@ public class BookFetcher {
                 }
             }
 
+            String length = "NA";
+
+            // First, try to fetch from editions
+            JSONObject edition = fetchFirstEdition(workDetails);
+            if (edition != null && edition.has("number_of_pages")) {
+                try {
+                    int pages = edition.getInt("number_of_pages");
+                    length = mapLengthByPages(pages);
+                } catch (Exception e) {
+                    System.out.println("Failed to parse page count from edition for: " + title);
+                }
+            }
+
+
             String genre = mapToAllowedValue(allSubjects, ALLOWED_GENRES);
             String tone = mapToAllowedValue(allSubjects, ALLOWED_TONES);
             String pace = mapToAllowedValue(allSubjects, ALLOWED_PACES);
@@ -147,7 +203,6 @@ public class BookFetcher {
             String twist = mapToAllowedValue(allSubjects, ALLOWED_TWISTS);
             String supernatural = mapToAllowedValue(allSubjects, ALLOWED_SUPERNATURAL);
             String setting = mapToAllowedValue(allSubjects, ALLOWED_SETTINGS);
-            String length = mapToAllowedValue(allSubjects, ALLOWED_LENGTHS);
             String style = mapToAllowedValue(allSubjects, ALLOWED_STYLES);
             String theme = mapToAllowedValue(allSubjects, ALLOWED_THEMES);
 
