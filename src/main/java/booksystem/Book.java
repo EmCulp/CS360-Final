@@ -1,6 +1,10 @@
 package booksystem;
 
+import java.util.Objects;
+
 public class Book {
+    private String title;
+    private String author;
     private String genre;
     private String tone;
     private String pace;
@@ -15,9 +19,11 @@ public class Book {
     private String writingStyle;
     private String themes;
 
-    public Book(String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
+    public Book(String title, String author, String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
                 String romanceLevel, String twists, String supernatural, String setting, String length,
                 String writingStyle, String themes) {
+        this.title = title;
+        this.author = author;
         this.genre = genre;
         this.tone = tone;
         this.pace = pace;
@@ -31,6 +37,11 @@ public class Book {
         this.length = length;
         this.writingStyle = writingStyle;
         this.themes = themes;
+    }
+
+    public Book(String title, String author){
+        this.title = title;
+        this.author = author;
     }
 
     // Getters
@@ -84,5 +95,23 @@ public class Book {
 
     public String getThemes() {
         return themes;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+        Book book = (Book) obj;
+        return title.equals(book.title) && author.equals(book.author);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(title, author);
+    }
+
+    @Override
+    public String toString(){
+        return title + "," + author;
     }
 }

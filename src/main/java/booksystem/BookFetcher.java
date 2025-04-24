@@ -3,6 +3,8 @@ package booksystem;
 import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -94,13 +96,6 @@ public class BookFetcher {
             return "\"" + text.replace("\"", "\"\"") + "\"";
         }
         return text;
-    }
-
-    private static String getNumberOfPages(JSONObject book){
-        if(book.has("number_of_pages")){
-            return String.valueOf(book.getInt("number_of_pages"));
-        }
-        return "NA";
     }
 
     private static String mapLengthByPages(int pages) {
@@ -212,34 +207,41 @@ public class BookFetcher {
         }
     }
 
-    public static List<String[]> loadBooksFromCsv(String filePath) {
-        List<String[]> books = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(",", 2);
-                if (tokens.length == 2) {
-                    books.add(new String[]{tokens[0].trim(), tokens[1].trim()});
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to read input CSV: " + e.getMessage());
-        }
-        return books;
-    }
-
     public static void main(String[] args){
         System.out.println("BookFetcher running");
 
-        String inputFilePath = "src/main/resources/book.csv";
-        String outputFilePath = "src/main/resources/books.csv";
+        String file = "src/main/resources/books.csv";
 
-        String searchQuery = "fiction";
-        String apiUrl = "https://openlibrary.org/search.json?q=" + searchQuery + "&limit=100";
+        String searchQuery = "speech";
+        String encodedQuery = URLEncoder.encode(searchQuery, StandardCharsets.UTF_8);
+        String apiUrl = "https://openlibrary.org/search.json?q=" + encodedQuery + "&limit=100";
 
-        try(FileWriter writer = new FileWriter(outputFilePath)){
-            writer.write("Title,Author,Genre,Tone,Pace,Protagonist,Ending,Action/Dev,Romance,Twist,Supernatural,Setting,Length,Style,Theme\n");
-            List<String[]> books = loadBooksFromCsv(inputFilePath);
+        File csvFile = new File(file);
+        boolean isEmpty = !csvFile.exists() || csvFile.length() == 0;
+
+        Set<String> existingTitles = new HashSet<>();
+
+        //Loads existing titles to avoid duplicates
+        if(csvFile.exists()){
+            try(BufferedReader reader = new BufferedReader(new FileReader(csvFile))){
+                //skip the header
+                String line = reader.readLine();
+                while((line = reader.readLine()) != null){
+                    String[] parts = line.split(",", -1); //handle empty columns
+                    if(parts.length > 0){
+                        existingTitles.add(parts[0].trim().toLowerCase()); //store lowercase title
+                    }
+                }
+            }catch(IOException e){
+                System.err.println("Error reading existing books titles: " + e.getMessage());
+            }
+        }
+
+        //Writes new titles
+        try(FileWriter writer = new FileWriter(csvFile, true)){
+            if(isEmpty){
+                writer.write("Title,Author,Genre,Tone,Pace,Protagonist,Ending,Action/Dev,Romance,Twist,Supernatural,Setting,Length,Style,Theme\n");
+            }
 
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -261,8 +263,14 @@ public class BookFetcher {
 
             for(int i =0; i< docs.length(); i++){
                 JSONObject book = docs.getJSONObject(i);
-                processBook(book, writer);
+                String title = book.optString("title", "").trim().toLowerCase();
+
+                if(!existingTitles.contains(title) && !title.isEmpty()){
+                    processBook(book, writer);  //only writes unique books
+                    existingTitles.add(title);  //adds books to avoid repeats
+                }
             }
+
             System.out.println("Fetched books and wrote to books.csv!");
         }catch(Exception e){
             System.err.println("Error fetching or writing book data: " +e.getMessage());
