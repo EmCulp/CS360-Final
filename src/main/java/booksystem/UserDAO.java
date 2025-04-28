@@ -18,18 +18,31 @@ public class UserDAO {
         stmt.executeUpdate();
     }
 
-    public static User authenticate(Connection conn, String email, String password) throws SQLException{
-        String sql = "SELECT * FROM users WHERE email = ?";
+    public static User authenticate(Connection conn, String username, String password) throws SQLException{
+//        if(username == null || username.trim().isEmpty()){
+//            System.out.println("Invalid username input");
+//            return null;
+//        }
+
+        String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, email);
+        stmt.setString(1, username);
+
+        System.out.println("Executing query: " +sql+ " with username: " +username);
+
         ResultSet rs = stmt.executeQuery();
 
         if(rs.next()){
             String storedPass = rs.getString("password");
             if(BCrypt.checkpw(password, storedPass)){
-                return new User(rs.getInt("user_id"), rs.getString("name"), email, storedPass);
+                return new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("email"), storedPass, username);
+            }else{
+                System.out.println("Password mismatch");
             }
+        }else{
+            System.out.println("No user found with that username");
         }
         return null;
     }
+
 }

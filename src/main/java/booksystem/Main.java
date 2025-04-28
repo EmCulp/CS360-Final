@@ -27,8 +27,8 @@ public class Main {
         Connection conn = DatabaseConnection.getConnection();
         System.out.println("Connection is good");
 
-        LoginController.setupRoutes(conn);
-        System.out.println("Routes set up!");
+//        LoginController.setupRoutes(conn);
+//        System.out.println("Routes set up!");
 
         get("/login", (req, res) -> {
             System.out.println("Login Page from main");
@@ -36,10 +36,12 @@ public class Main {
         });
 
         post("/login", (req, res) -> {
-            String email = req.queryParams("username");
+            String username = req.queryParams("username");
             String password = req.queryParams("password");
 
-            User user = UserDAO.authenticate(conn, email, password);
+            System.out.println("Received username: " +username);
+
+            User user = UserDAO.authenticate(conn, username, password);
 
             if(user != null){
                 req.session(true).attribute("user_id", user.getUserId());

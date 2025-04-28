@@ -22,15 +22,18 @@ public class LoginController {
         });
 
         post("/login", (req, res) -> {
-            String email = req.queryParams("email");
+            String username = req.queryParams("username");
             String password = req.queryParams("password");
-            User user = UserDAO.authenticate(connection, email, password);
+
+            System.out.println("Received username: " +username);
+
+            User user = UserDAO.authenticate(connection, username, password);
 
             if(user != null){
                 req.session(true).attribute("user_id", user.getUserId());
-                res.redirect("/Main");
+                res.redirect("/main");
             }else{
-                return "Invalid credentials";
+                res.redirect("/login?error=invalid");
             }
             return null;
         });
