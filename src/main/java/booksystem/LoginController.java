@@ -43,8 +43,9 @@ public class LoginController {
             String name = req.queryParams("name");
             String email = req.queryParams("email");
             String password = req.queryParams("password");
+            String username = req.queryParams("username");
 
-            UserDAO.register(name, email, password);
+            UserDAO.register(name, email, password, username);
             res.redirect("/login");
             return null;
         });

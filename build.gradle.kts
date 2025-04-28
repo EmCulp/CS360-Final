@@ -17,6 +17,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.6")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.json:json:20210307")    //JSON parsing
+    implementation("de.svenkubiak:jBCrypt:0.4.1")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

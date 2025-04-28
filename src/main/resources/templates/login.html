@@ -29,17 +29,33 @@
                 <label for="signup-name">Name</label>
                 <input type="text" id="signup-name" name="name" required>
 
+                <label for="signup-username">Username</label>
+                <input type="text" id="signup-username" name="username" required>
+
                 <label for="signup-email">Email</label>
                 <input type="text" id="signup-email" name="email" required>
 
                 <label for="signup-password">Password</label>
                 <input type="password" id="signup-password" name="password" required>
 
+                <label for="signup-confirm-password">Confirm Password</label>
+                <input type="password" id="signup-confirm-password" name="confirmPassword" required>
+
                 <button type="submit">Sign Up</button>
             </form>
         </div>
     </div>
     <script>
+        document.querySelector('form[action="/signup"]').addEventListener('submit', function(event) {
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                event.preventDefault(); // Stop form submission
+                alert("Passwords do not match. Please try again.");
+            }
+        });
+
         const loginToggle = document.getElementById('loginToggle');
         const signupToggle = document.getElementById('signupToggle');
         const loginForm = document.getElementById('loginForm');

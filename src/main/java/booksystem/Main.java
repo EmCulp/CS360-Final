@@ -36,7 +36,7 @@ public class Main {
         });
 
         post("/login", (req, res) -> {
-            String email = req.queryParams("email");
+            String email = req.queryParams("username");
             String password = req.queryParams("password");
 
             User user = UserDAO.authenticate(conn, email, password);
@@ -49,6 +49,23 @@ public class Main {
             }
             return null;
         });
+
+        post("/signup", (req, res) -> {
+            String name = req.queryParams("name");
+            String email = req.queryParams("email");
+            String password = req.queryParams("password");
+            String username = req.queryParams("username");
+
+            try {
+                UserDAO.register(name, email, password, username);
+                res.redirect("/login");
+            } catch (Exception e) {
+                e.printStackTrace();
+                res.redirect("/signup?error=registration");
+            }
+            return null;
+        });
+
 
         get("/main", (req, res) -> {
             if (req.session().attribute("user_id") == null) {
