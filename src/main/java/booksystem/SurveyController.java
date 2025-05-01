@@ -27,9 +27,11 @@ public class SurveyController {
             return;
         }
 
+        SurveyDAO dao = new SurveyDAO();
+        int submissionId = dao.getNextSubmissionId(userId);
+
         Gson gson = new Gson();
         Survey responses = gson.fromJson(json, Survey.class);
-        SurveyDAO dao = new SurveyDAO();
 
         for (SurveyResponse response : responses.getResp()) {
             System.out.println("Parsed response -> Question ID: " + response.getQid() + ", Answer: " + response.getAnswer());
@@ -40,8 +42,9 @@ public class SurveyController {
 
             int correctedQuestionId = response.getQid();
             // Process the answers once, passing the entire list at once
-            dao.saveSurveyResponses(response, correctedQuestionId, userId);
+            dao.saveSurveyResponses(response, correctedQuestionId, userId, submissionId);
         }
+        dao.saveUserPreferences(userId, submissionId);
     }
 
     public boolean isValidUserId(int userId) {
