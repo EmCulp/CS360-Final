@@ -19,6 +19,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws SQLException {
+
         port(4567);
         System.out.println("Port opened");
 
@@ -26,9 +27,6 @@ public class Main {
 
         Connection conn = DatabaseConnection.getConnection();
         System.out.println("Connection is good");
-
-//        LoginController.setupRoutes(conn);
-//        System.out.println("Routes set up!");
 
         get("/login", (req, res) -> {
             System.out.println("Login Page from main");
@@ -75,6 +73,8 @@ public class Main {
                 return null;
             }
 
+            Integer userId = req.session().attribute("user_id");
+
             return new MustacheTemplateEngine().render(new ModelAndView(null, "Main.html"));
         });
 
@@ -93,19 +93,29 @@ public class Main {
         });
 
         post("/submitSurvey", (req, res)->{
-           if(req.session().attribute("user_id")==null){
-               res.redirect("/login");
-               return null;
-           }
+            Integer userId = req.session().attribute("user_id");
 
-           String json = req.body();
+            if(userId==null){
+                res.redirect("/login");
+                return null;
+            }
 
-           //Parse JSON and store to DB
-            SurveyController controller = new SurveyController();
-            controller.handleSurveySubmission(json);
+            String json = req.body();
 
-            res.status(200);
-            return "Survey submitted successfully!";
+            res.status(202);
+            res.body("Survey submission is being processed");
+
+            new Thread(()->{
+                try{
+                    //Parse JSON and store to DB
+                    SurveyController controller = new SurveyController();
+                    controller.handleSurveySubmission(json, userId);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }).start();
+
+            return res.body();
         });
 
     }
