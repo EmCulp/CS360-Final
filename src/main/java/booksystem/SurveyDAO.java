@@ -29,23 +29,8 @@ public class SurveyDAO {
                     continue;  // Skip this answer if it doesn't exist
                 }
 
-                // Check if this exact response already exists
-                String checkQuery = "SELECT COUNT(*) FROM usersurveyanswers WHERE user_id = ? AND question_id = ? AND answer_option_id = ? AND submission_id = ?";
-                try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
-                    checkStmt.setInt(1, userId);
-                    checkStmt.setInt(2, questionId);
-                    checkStmt.setInt(3, answerOptionId);
-                    checkStmt.setInt(4, submissionId);
-                    try (ResultSet rs = checkStmt.executeQuery()) {
-                        if (rs.next() && rs.getInt(1) > 0) {
-                            System.out.println("User has already answered this option for this question: " + answer);
-                            continue;  // Skip the duplicate answer
-                        }
-                    }
-                }
-
                 // Insert the answer
-                String insertQuery = "INSERT IGNORE INTO usersurveyanswers (user_id, question_id, answer_option_id, submission_id) VALUES (?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO usersurveyanswers (user_id, question_id, answer_option_id, submission_id) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
                     insertStmt.setInt(1, userId);
                     insertStmt.setInt(2, questionId);
@@ -81,7 +66,7 @@ public class SurveyDAO {
         String sql = """
             SELECT surveyansweroptions.question_id, surveyansweroptions.option_text
             FROM usersurveyanswers
-            JOIN surveyansweroptions ON usersurveyanswers.option_id = surveyansweroptions.option_id
+            JOIN surveyansweroptions ON usersurveyanswers.answer_option_id = surveyansweroptions.option_id
             WHERE usersurveyanswers.user_id = ?
         """;
 
@@ -102,24 +87,9 @@ public class SurveyDAO {
 
     public void insertUserPreferences(int userId, int submissionID, Map<String, String> preferences) {
         String sql = """
-        INSERT INTO userpreferences (user_id, submission_id, Genre, Tone, Pace, Protagonist, Ending,
-        `Action_Dev`, Romance, Twist, Supernatural, Setting, Length, Style, Theme)
+        INSERT INTO userpreferences (user_id, submission_id, genre, tone, pace, protagonist, ending,
+        `action_dev`, romance, twist, supernatural, setting, length, style, theme)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-            submission_id = VALUES(submission_id),
-            genre = VALUES(genre),
-            tone = VALUES(tone),
-            pace = VALUES(pace),
-            protagonist = VALUES(protagonist),
-            ending = VALUES(ending),
-            `action_dev` = VALUES(`action_dev`),
-            romance = VALUES(romance),
-            twist = VALUES(twist),
-            supernatural = VALUES(supernatural),
-            setting = VALUES(setting),
-            length = VALUES(length),
-            style = VALUES(style),
-            theme = VALUES(theme)
     """;
 
         try (Connection conn = DatabaseConnection.getConnection();
