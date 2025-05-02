@@ -174,19 +174,19 @@ public class SurveyDAO {
                 "INSERT INTO userpreferences (user_id, submission_id, genre, tone, pace, protagonist, " +
                         "ending, action_dev, romance, twist, supernatural, setting, length, style, theme) " +
                         "SELECT ?, ?, " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 1 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 2 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 3 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 4 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 5 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 6 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 7 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 8 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 9 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 10 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 11 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 12 THEN surveyansweroptions.option_text ELSE NULL END), " +
-                        "MAX(CASE WHEN usersurveyanswers.question_id = 13 THEN surveyansweroptions.option_text ELSE NULL END) " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 1 THEN surveyansweroptions.option_text ELSE NULL END) AS genre, " +
+                        "GROUP_CONCAT(CASE WHEN usersurveyanswers.question_id = 2 THEN surveyansweroptions.option_text ELSE NULL END SEPARATOR ' / ') AS tone, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 3 THEN surveyansweroptions.option_text ELSE NULL END) AS pace, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 4 THEN surveyansweroptions.option_text ELSE NULL END) AS protagonist, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 5 THEN surveyansweroptions.option_text ELSE NULL END) AS ending, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 6 THEN surveyansweroptions.option_text ELSE NULL END) AS action_dev, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 7 THEN surveyansweroptions.option_text ELSE NULL END) AS romance, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 8 THEN surveyansweroptions.option_text ELSE NULL END) AS twist, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 9 THEN surveyansweroptions.option_text ELSE NULL END) AS supernatural, " +
+                        "GROUP_CONCAT(CASE WHEN usersurveyanswers.question_id = 10 THEN surveyansweroptions.option_text ELSE NULL END SEPARATOR ' / ') AS setting, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 11 THEN surveyansweroptions.option_text ELSE NULL END) AS length, " +
+                        "GROUP_CONCAT(CASE WHEN usersurveyanswers.question_id = 12 THEN surveyansweroptions.option_text ELSE NULL END SEPARATOR ' / ') AS style, " +
+                        "GROUP_CONCAT(CASE WHEN usersurveyanswers.question_id = 13 THEN surveyansweroptions.option_text ELSE NULL END SEPARATOR ' / ') AS theme " +
                         "FROM usersurveyanswers " +
                         "JOIN surveyansweroptions ON usersurveyanswers.answer_option_id = surveyansweroptions.option_id " +
                         "WHERE usersurveyanswers.user_id = ? AND usersurveyanswers.submission_id = ? " +
