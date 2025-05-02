@@ -108,32 +108,32 @@ public class SurveyDAO {
         }
     }
 
-    public void saveUserPreferences(int userId, int submissionId) throws SQLException{
-        Map<Integer, String> userAnswers = getUserAnswersWithText(userId);
-
-        Map<String, String> preferences = new HashMap<>();
-        preferences.put("Genre", "NA");
-        preferences.put("Tone", "NA");
-        preferences.put("Pace", "NA");
-        preferences.put("Protagonist", "NA");
-        preferences.put("Ending", "NA");
-        preferences.put("Action_Dev", "NA");
-        preferences.put("Romance", "NA");
-        preferences.put("Twist", "NA");
-        preferences.put("Supernatural", "NA");
-        preferences.put("Setting", "NA");
-        preferences.put("Length", "NA");
-        preferences.put("Style", "NA");
-        preferences.put("Theme", "NA");
-
-        for(Map.Entry<Integer, String> entry : userAnswers.entrySet()){
-            String category = getCategoryByQuestionId(entry.getKey());
-            if(!category.equals("Unknown")){
-                preferences.put(category, entry.getValue());
-            }
-        }
-        insertUserPreferences(userId, submissionId, preferences);
-    }
+//    public void saveUserPreferences(int userId, int submissionId) throws SQLException{
+//        Map<Integer, String> userAnswers = getUserAnswersWithText(userId);
+//
+//        Map<String, String> preferences = new HashMap<>();
+//        preferences.put("Genre", "NA");
+//        preferences.put("Tone", "NA");
+//        preferences.put("Pace", "NA");
+//        preferences.put("Protagonist", "NA");
+//        preferences.put("Ending", "NA");
+//        preferences.put("Action_Dev", "NA");
+//        preferences.put("Romance", "NA");
+//        preferences.put("Twist", "NA");
+//        preferences.put("Supernatural", "NA");
+//        preferences.put("Setting", "NA");
+//        preferences.put("Length", "NA");
+//        preferences.put("Style", "NA");
+//        preferences.put("Theme", "NA");
+//
+//        for(Map.Entry<Integer, String> entry : userAnswers.entrySet()){
+//            String category = getCategoryByQuestionId(entry.getKey());
+//            if(!category.equals("Unknown")){
+//                preferences.put(category, entry.getValue());
+//            }
+//        }
+//        insertUserPreferences(userId, submissionId, preferences);
+//    }
 
     private String getCategoryByQuestionId(int questionId){
         switch (questionId) {
@@ -168,5 +168,39 @@ public class SurveyDAO {
         }
         return 1; // Start at 1 if nothing exists
     }
+
+    public void saveUserPreferences(int userId, int submissionId) throws SQLException {
+        String insertQuery =
+                "INSERT INTO userpreferences (user_id, submission_id, genre, tone, pace, protagonist, " +
+                        "ending, action_dev, romance, twist, supernatural, setting, length, style, theme) " +
+                        "SELECT ?, ?, " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 1 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 2 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 3 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 4 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 5 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 6 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 7 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 8 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 9 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 10 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 11 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 12 THEN surveyansweroptions.option_text ELSE NULL END), " +
+                        "MAX(CASE WHEN usersurveyanswers.question_id = 13 THEN surveyansweroptions.option_text ELSE NULL END) " +
+                        "FROM usersurveyanswers " +
+                        "JOIN surveyansweroptions ON usersurveyanswers.answer_option_id = surveyansweroptions.option_id " +
+                        "WHERE usersurveyanswers.user_id = ? AND usersurveyanswers.submission_id = ? " +
+                        "GROUP BY usersurveyanswers.user_id, usersurveyanswers.submission_id";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, submissionId);
+            stmt.setInt(3, userId);
+            stmt.setInt(4, submissionId);
+            stmt.executeUpdate();
+        }
+    }
+
 
 }
