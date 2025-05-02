@@ -202,5 +202,14 @@ public class SurveyDAO {
         }
     }
 
+    public void insertSubmission(int userId, int submissionId) throws SQLException {
+        String query = "INSERT INTO submissions (submission_id, user_id, submitted_at) VALUES (?, ?, NOW())";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, submissionId);
+            stmt.setInt(2, userId);
+            stmt.executeUpdate();
+        }
+    }
 
 }
