@@ -10,21 +10,21 @@
     <header>
         <h1>Your Results...</h1>
     </header>
-    <div id="results"></div>
 
-    <script>
-        const results = JSON.parse(sessionStorage.getItem('surveyResults'));
-
-        if(results){
-            let resultHTML = '<ul>';
-            for(const question in results){
-                resultHTML += `<li><strong>${question}:</strong> ${results[question]}</li>`;
-            }
-            resultHTML += '</ul>';
-            document.getElementById('results').innerHTML = resultHTML;
-        }else{
-            document.getElementById('results').innerHTML = 'No results found.'
-        }
-    </script>
+    <div class="carousel-container">
+        {{#recommendations}}
+        <div class="carousel-item">
+            {{#url}}
+            <img src="{{url}}" alt="{{title}} Cover">
+            {{/url}}
+            {{^url}}
+            <div class="cover-placeholder">Cover Unavailable</div>
+            {{/url}}
+            <h3>{{title}}</h3>
+            <p><strong>Author:</strong> {{author}}</p>
+        </div>
+        {{/recommendations}}
+    </div>
+    <script src="/carousel.js"></script>
 </body>
 </html>

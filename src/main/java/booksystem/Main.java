@@ -7,6 +7,9 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -79,13 +82,27 @@ public class Main {
         });
 
         get("/results", (req, res) -> {
-            if (req.session().attribute("user_id") == null) {
-                res.redirect("/login");
-                return null;
-            }
+            try {
+                Integer userId = req.session().attribute("user_id");
+                if (userId == null) {
+                    res.redirect("/login");
+                    return null;
+                }
 
-            return new MustacheTemplateEngine().render(new ModelAndView(null, "results.html"));
+                Map<String, Object> model = new HashMap<>();
+
+                BookDAO bookDAO = new BookDAO();
+                List<Book> recommendations = bookDAO.getTopRecommendedBooks(userId, conn);
+                model.put("recommendations", recommendations); // Ensure this matches your template
+
+                return new MustacheTemplateEngine().render(new ModelAndView(model, "results.html"));
+            } catch (Exception e) {
+                e.printStackTrace(); // Log the real cause of the error
+                res.status(500);
+                return "Internal Server Error: " + e.getMessage();
+            }
         });
+
 
         get("/loadBooks", (req, res)->{
            BookLoader.loadBooks("src/main/resources/books.csv", conn);

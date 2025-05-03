@@ -3,6 +3,7 @@ package booksystem;
 import java.util.Objects;
 
 public class Book {
+    private int bookId;
     private String title;
     private String author;
     private String genre;
@@ -18,10 +19,12 @@ public class Book {
     private String length;
     private String writingStyle;
     private String themes;
+    private String url;
 
-    public Book(String title, String author, String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
+    public Book(int bookId, String title, String author, String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
                 String romanceLevel, String twists, String supernatural, String setting, String length,
-                String writingStyle, String themes) {
+                String writingStyle, String themes, String url) {
+        this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -37,7 +40,29 @@ public class Book {
         this.length = length;
         this.writingStyle = writingStyle;
         this.themes = themes;
+        this.url = url;
     }
+
+    public Book() {
+        bookId = 0;
+        title = null;
+        author = null;
+        genre = null;
+        tone = null;
+        pace = null;
+        protagonist = null;
+        ending = null;
+        actionDevelopment = null;
+        romanceLevel = null;
+        twists = null;
+        supernatural = null;
+        setting = null;
+        length = null;
+        writingStyle = null;
+        themes = null;
+        url = null;
+    }
+
 
     public Book(String title, String author){
         this.title = title;
@@ -45,6 +70,19 @@ public class Book {
     }
 
     // Getters
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
     public String getGenre() {
         return genre;
     }
@@ -95,6 +133,79 @@ public class Book {
 
     public String getThemes() {
         return themes;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    //Setters
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setTone(String tone) {
+        this.tone = tone;
+    }
+
+    public void setPace(String pace) {
+        this.pace = pace;
+    }
+
+    public void setProtagonist(String protagonist) {
+        this.protagonist = protagonist;
+    }
+
+    public void setEnding(String ending) {
+        this.ending = ending;
+    }
+
+    public void setActionDevelopment(String actionDevelopment) {
+        this.actionDevelopment = actionDevelopment;
+    }
+
+    public void setRomanceLevel(String romanceLevel) {
+        this.romanceLevel = romanceLevel;
+    }
+
+    public void setTwists(String twists) {
+        this.twists = twists;
+    }
+
+    public void setSupernatural(String supernatural) {
+        this.supernatural = supernatural;
+    }
+
+    public void setSetting(String setting) {
+        this.setting = setting;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public void setWritingStyle(String writingStyle) {
+        this.writingStyle = writingStyle;
+    }
+
+    public void setThemes(String themes) {
+        this.themes = themes;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
