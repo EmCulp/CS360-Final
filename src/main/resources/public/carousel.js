@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const scrollDistance = items[0].offsetWidth;  // We want to scroll by the full width of an item
 
     const rightButton = document.getElementById("nextBtn");
-    const leftButton = document.getElementById("pervBtn");
+    const leftButton = document.getElementById("prevBtn");
 
     function updateButtons() {
         if (currentIndex === 0) {
@@ -22,10 +22,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function updateCarousel(){
+        document.querySelector(".carousel-inner").style.transform = `translateX(-${currentIndex * scrollDistance}px)`;
+    }
+
     function nextBook(){
         if(currentIndex < items.length - 1){
             currentIndex++;
-            document.querySelector(".carousel-inner").style.transform = `translateX(1${currentIndex * scrollDistance}px)`;
+            updateCarousel();
             updateButtons();
         }
     }
@@ -33,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function prevBook(){
         if(currentIndex > 0){
             currentIndex--;
-            document.querySelector(".carousel-inner").style.transform = `translateX(1${currentIndex * scrollDistance}px)`;
+            updateCarousel();
             updateButtons();
         }
     }
