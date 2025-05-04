@@ -12,19 +12,27 @@
     </header>
 
     <div class="carousel-container">
-        {{#recommendations}}
-        <div class="carousel-item">
-            {{#url}}
-            <img src="{{url}}" alt="{{title}} Cover">
-            {{/url}}
-            {{^url}}
-            <div class="cover-placeholder">Cover Unavailable</div>
-            {{/url}}
-            <h3>{{title}}</h3>
-            <p><strong>Author:</strong> {{author}}</p>
+        <div class="carousel-inner" id="carouselItems">
+            {{#recommendations}}
+            <div class="carousel-item">
+                {{#url}}
+                <img src="{{url}}" alt="{{title}} Cover">
+                {{/url}}
+                {{^url}}
+                <div class="cover-placeholder">Cover Unavailable</div>
+                {{/url}}
+                <h3>{{title}}</h3>
+                <p><strong>Author:</strong> {{author}}</p>
+            </div>
+            {{/recommendations}}
         </div>
-        {{/recommendations}}
     </div>
+
+    <div class="carousel-nav">
+        <button id="prevBtn" onclick="prevBook()">←</button>
+        <button id="nextBtn" onclick="nextBook()">→</button>
+    </div>
+
     <script src="/carousel.js"></script>
 </body>
 </html>

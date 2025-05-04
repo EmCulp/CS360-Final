@@ -60,100 +60,6 @@ public class SurveyDAO {
         return optionsMap;
     }
 
-    public Map<Integer, String> getUserAnswersWithText(int userId){
-        Map<Integer, String> answers = new HashMap<>();
-
-        String sql = """
-            SELECT surveyansweroptions.question_id, surveyansweroptions.option_text
-            FROM usersurveyanswers
-            JOIN surveyansweroptions ON usersurveyanswers.answer_option_id = surveyansweroptions.option_id
-            WHERE usersurveyanswers.user_id = ?
-        """;
-
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                answers.put(rs.getInt("question_id"), rs.getString("option_text"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return answers;
-    }
-
-    public void insertUserPreferences(int userId, int submissionID, Map<String, String> preferences) {
-        String sql = """
-        INSERT INTO userpreferences (user_id, submission_id, genre, tone, pace, protagonist, ending,
-        `action_dev`, romance, twist, supernatural, setting, length, style, theme)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """;
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, submissionID);
-            int i = 3;
-            for (String key : List.of("genre", "tone", "pace", "protagonist", "ending",
-                    "action_dev", "romance", "twist", "supernatural",
-                    "setting", "length", "style", "theme")) {
-                stmt.setString(i++, preferences.getOrDefault(key, "NA"));
-            }
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    public void saveUserPreferences(int userId, int submissionId) throws SQLException{
-//        Map<Integer, String> userAnswers = getUserAnswersWithText(userId);
-//
-//        Map<String, String> preferences = new HashMap<>();
-//        preferences.put("Genre", "NA");
-//        preferences.put("Tone", "NA");
-//        preferences.put("Pace", "NA");
-//        preferences.put("Protagonist", "NA");
-//        preferences.put("Ending", "NA");
-//        preferences.put("Action_Dev", "NA");
-//        preferences.put("Romance", "NA");
-//        preferences.put("Twist", "NA");
-//        preferences.put("Supernatural", "NA");
-//        preferences.put("Setting", "NA");
-//        preferences.put("Length", "NA");
-//        preferences.put("Style", "NA");
-//        preferences.put("Theme", "NA");
-//
-//        for(Map.Entry<Integer, String> entry : userAnswers.entrySet()){
-//            String category = getCategoryByQuestionId(entry.getKey());
-//            if(!category.equals("Unknown")){
-//                preferences.put(category, entry.getValue());
-//            }
-//        }
-//        insertUserPreferences(userId, submissionId, preferences);
-//    }
-
-    private String getCategoryByQuestionId(int questionId){
-        switch (questionId) {
-            case 1: return "Genre";
-            case 2: return "Tone";
-            case 3: return "Pace";
-            case 4: return "Protagonist";
-            case 5: return "Ending";
-            case 6: return "Action_Dev";
-            case 7: return "Romance";
-            case 8: return "Twist";
-            case 9: return "Supernatural";
-            case 10: return "Setting";
-            case 11: return "Length";
-            case 12: return "Style";
-            case 13: return "Theme";
-            default: return "Unknown";
-        }
-    }
-
     public int getNextSubmissionId(int userId) {
         String sql = "SELECT COALESCE(MAX(submission_id), 0) + 1 FROM usersurveyanswers WHERE user_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -202,13 +108,20 @@ public class SurveyDAO {
         }
     }
 
-    public void insertSubmission(int userId, int submissionId) throws SQLException {
-        String query = "INSERT INTO submissions (submission_id, user_id, submitted_at) VALUES (?, ?, NOW())";
+    public int insertSubmission(int userId) throws SQLException {
+        String query = "INSERT INTO submissions (user_id, submitted_at) VALUES (?, NOW())";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, submissionId);
             stmt.setInt(2, userId);
             stmt.executeUpdate();
+
+            try(ResultSet generatedKeys = stmt.getGeneratedKeys()){
+                if(generatedKeys.next()){
+                    return generatedKeys.getInt(1);
+                }else{
+                    throw new SQLException("Creating submission failed, no ID obtained");
+                }
+            }
         }
     }
 
