@@ -111,13 +111,15 @@ public class SurveyDAO {
     public int insertSubmission(int userId) throws SQLException {
         String query = "INSERT INTO submissions (user_id, submitted_at) VALUES (?, NOW())";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(2, userId);
+             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, userId);
             stmt.executeUpdate();
 
+            //Returns the submission_id as the default - should actually return a
+            //valid submission_id
             try(ResultSet generatedKeys = stmt.getGeneratedKeys()){
                 if(generatedKeys.next()){
-                    return generatedKeys.getInt(1);
+                    return generatedKeys.getInt(1);     //new submission_id
                 }else{
                     throw new SQLException("Creating submission failed, no ID obtained");
                 }

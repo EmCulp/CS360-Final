@@ -5,25 +5,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const scrollDistance = items[0].offsetWidth;  // We want to scroll by the full width of an item
 
-    const rightButton = document.createElement("button");
-    rightButton.textContent = "→";
-    rightButton.style.position = "absolute";
-    rightButton.style.top = "50%";
-    rightButton.style.right = "10px";
-    rightButton.style.transform = "translateY(-50%)";
-    rightButton.style.fontSize = "20px";
-    rightButton.style.zIndex = "10";
-    carouselContainer.appendChild(rightButton);
-
-    const leftButton = document.createElement("button");
-    leftButton.textContent = "←";
-    leftButton.style.position = "absolute";
-    leftButton.style.top = "50%";
-    leftButton.style.left = "10px";
-    leftButton.style.transform = "translateY(-50%)";
-    leftButton.style.fontSize = "20px";
-    leftButton.style.zIndex = "10";
-    carouselContainer.appendChild(leftButton);
+    const rightButton = document.getElementById("nextBtn");
+    const leftButton = document.getElementById("pervBtn");
 
     function updateButtons() {
         if (currentIndex === 0) {
@@ -39,21 +22,24 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    rightButton.addEventListener("click", function() {
-        if (currentIndex < items.length - 1) {
+    function nextBook(){
+        if(currentIndex < items.length - 1){
             currentIndex++;
-            document.querySelector(".carousel-inner").style.transform = `translateX(-${currentIndex * scrollDistance}px)`;
+            document.querySelector(".carousel-inner").style.transform = `translateX(1${currentIndex * scrollDistance}px)`;
             updateButtons();
         }
-    });
+    }
 
-    leftButton.addEventListener("click", function() {
-        if (currentIndex > 0) {
+    function prevBook(){
+        if(currentIndex > 0){
             currentIndex--;
-            document.querySelector(".carousel-inner").style.transform = `translateX(-${currentIndex * scrollDistance}px)`;
+            document.querySelector(".carousel-inner").style.transform = `translateX(1${currentIndex * scrollDistance}px)`;
             updateButtons();
         }
-    });
+    }
+
+    rightButton.addEventListener("click", nextBook);
+    leftButton.addEventListener("click", prevBook);
 
     updateButtons();  // Initialize buttons on page load
 });

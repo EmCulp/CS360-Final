@@ -41,7 +41,10 @@ header{
 .carousel-item img{
     width: 100%;
     height: auto;
+    max-width: 100px;
+    max-height: 600px;
     border-radius: 8px;
+    object-fit: contain;
 }
 
 .cover-placeholder {
@@ -60,8 +63,12 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 300px;
-    margin: 10px auto;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0 10px;
 }
 
 .carousel-nav button {
@@ -72,9 +79,15 @@ header{
     color: #3E2A47;
     cursor: pointer;
     border-radius: 5px;
+    z-index: 10;
+    transition: background-color 0.3s ease;
 }
 
 .carousel-nav button:disabled {
     opacity: 0.3;
     cursor: default;
+}
+
+.carousel-nav button:hover{
+    background-color: #D19D65;
 }
