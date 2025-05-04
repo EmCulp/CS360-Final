@@ -123,15 +123,13 @@ public class Main {
             res.status(202);
             res.body("Survey submission is being processed");
 
-            new Thread(()->{
-                try{
-                    //Parse JSON and store to DB
-                    SurveyController controller = new SurveyController();
-                    controller.handleSurveySubmission(json, userId);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }).start();
+            try{
+                //Parse JSON and store to DB
+                SurveyController controller = new SurveyController();
+                controller.handleSurveySubmission(json, userId);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
             return res.body();
         });

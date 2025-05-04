@@ -29,7 +29,8 @@ public class SurveyController {
 
         SurveyDAO dao = new SurveyDAO();
 
-        int submissionId = dao.insertSubmission(userId);
+        int submissionId = dao.getNextSubmissionId(userId);
+        dao.insertSubmission(userId, submissionId);
         System.out.println("Submission ID: " +submissionId);
 
         Gson gson = new Gson();
