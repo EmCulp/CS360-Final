@@ -20,6 +20,8 @@ public class Book {
     private String writingStyle;
     private String themes;
     private String url;
+    private double rating;
+    private double spice;
 
     public Book(int bookId, String title, String author, String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
                 String romanceLevel, String twists, String supernatural, String setting, String length,
@@ -41,6 +43,15 @@ public class Book {
         this.writingStyle = writingStyle;
         this.themes = themes;
         this.url = url;
+    }
+
+    public Book(int bookId, String title, String author, double rating, double spice, String coverURL){
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.rating = rating;
+        this.spice = spice;
+        url = coverURL;
     }
 
     public Book() {
@@ -139,6 +150,14 @@ public class Book {
         return url;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public double getSpice() {
+        return spice;
+    }
+
     //Setters
     public void setBookId(int bookId) {
         this.bookId = bookId;
@@ -206,6 +225,14 @@ public class Book {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setSpice(double spice) {
+        this.spice = spice;
     }
 
     @Override

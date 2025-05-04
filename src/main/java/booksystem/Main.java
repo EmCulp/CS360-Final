@@ -134,6 +134,19 @@ public class Main {
             return res.body();
         });
 
+        get("/BooksRead", (req, res) -> {
+           int userId = req.session().attribute("user_id");
+
+           BookDAO bookDAO = new BookDAO();
+
+           List<Book> booksRead = bookDAO.getBooksReadByUser(userId);
+
+           Map<String, Object> model = new HashMap<>();
+           model.put("books", booksRead);
+
+            return new MustacheTemplateEngine().render(new ModelAndView(model, "BooksRead.html"));
+        });
+
     }
 
 }

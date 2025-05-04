@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Books You've Read</title>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/booksread.css">
+    </head>
+    <body>
+        <header>
+            <h1>Books You've Read</h1>
+        </header>
+
+        <div class="form-container">
+            <form action="/books/add" method="POST">
+                <h2>Add a Book</h2>
+                <input type="text" name="title" placeholder="Title" required>
+                <input type="text" name="author" placeholder="Author (Optional)" required>
+                <input type="number" name="rating" placeholder="Rating (0–5) (Optional)" step="0.1" min="0" max="5" required>
+                <input type="number" name="spice" placeholder="Spice (0–5) (Optional)" step="0.1" min="0" max="5">
+                <input type="text" name="cover_url" placeholder="Cover URL (Optional)">
+                <button type="submit">Add Book</button>
+            </form>
+
+            <form action="/books/remove" method="POST">
+                <h2>Remove a Book</h2>
+                <input type="text" name="title" placeholder="Title" required>
+                <input type="text" name="author" placeholder="Author" required>
+                <button type="submit">Remove Book</button>
+            </form>
+        </div>
+
+        <div class="books-list">
+            {{#booksRead}}
+            <div class="book-entry">
+                <div class="book-info">
+                    <div class="line1"><strong>{{title}}</strong> by {{author}}</div>
+                    <div class="line2">Rating: {{rating}} / 5 | Spice: {{spice}} / 5</div>
+                </div>
+                {{#cover_url}}
+                <div class="cover"><img src="{{cover_url}}" alt="Cover for {{title}}"></div>
+                {{/cover_url}}
+            </div>
+            <hr>
+            {{/booksRead}}
+        </div>
+    </body>
+</html>
