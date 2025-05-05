@@ -54,6 +54,12 @@ public class Book {
         url = coverURL;
     }
 
+    public Book(int bookId, double rating, double spice){
+        this.bookId = bookId;
+        this.rating = rating;
+        this.spice = spice;
+    }
+
     public Book() {
         bookId = 0;
         title = null;

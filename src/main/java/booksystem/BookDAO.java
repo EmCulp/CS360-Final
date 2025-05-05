@@ -1,5 +1,7 @@
 package booksystem;
 
+import com.mysql.cj.exceptions.StreamingNotifiable;
+
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
@@ -58,7 +60,13 @@ public class BookDAO {
 
     public List<Book> getBooksReadByUser(int userId){
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM booksread WHERE user_id = ? ";
+        String sql = """
+            SELECT br.book_id, b.title, b.author, br.rating, br.spice, bc.cover_url
+            FROM books_read br
+            JOIN books b ON br.book_id = b.book_id
+            LEFT JOIN book_covers bc ON bc.book_id = br.book_id
+            WHERE br.user_id = ?
+            """;
 
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -72,11 +80,13 @@ public class BookDAO {
                 String author = resultSet.getString("author");
                 double rating = resultSet.getDouble("rating");
                 double spice = resultSet.getDouble("spice");
-                String coverURL = resultSet.getString("cover_url");
+                String coverURl = resultSet.getString("cover_url");
 
-                Book book = new Book(bookId, title, author, rating, spice, coverURL);
+                Book book = new Book(bookId, title, author, rating, spice, coverURl);
+                System.out.println("Cover URL " + book.getUrl());
                 books.add(book);
             }
+            System.out.println("Books on Books Read page");
         }catch (SQLException e){
             System.err.println("Error while retrieving books: " +e.getMessage());
         }
@@ -84,37 +94,27 @@ public class BookDAO {
     }
 
     public void addBookRead(Book book, int userId){
-        String sql = "INSERT INTO booksread (user_id, book_id, title, author, rating, spice, cover_url) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO books_read (user_id, book_id, rating, spice) VALUES (?, ?, ?, ?) ";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, userId);
-            statement.setInt(2, book.getBookId());
-            statement.setString(3, book.getTitle());
-
-            if(book.getAuthor() == null || book.getAuthor().isEmpty()){
-                statement.setNull(4, Types.VARCHAR);
-            }else{
-                statement.setString(4, book.getAuthor());
+            if(book.getBookId() == -1){
+                System.out.println("Book ID is null");
             }
+            statement.setInt(2, book.getBookId());
 
             if(book.getRating() == 0.0){
-                statement.setNull(5, Types.DOUBLE);
+                statement.setNull(3, Types.DOUBLE);
             }else{
-                statement.setDouble(5, book.getRating());
+                statement.setDouble(3, book.getRating());
             }
 
             if(book.getSpice() == 0.0){
-                statement.setNull(6, Types.DOUBLE);
+                statement.setNull(4, Types.DOUBLE);
             }else{
-                statement.setDouble(6, book.getSpice());
-            }
-
-            if (book.getUrl() == null || book.getUrl().isEmpty()) {
-                statement.setNull(7, Types.VARCHAR);
-            } else {
-                statement.setString(7, book.getUrl());
+                statement.setDouble(4, book.getSpice());
             }
 
             statement.executeUpdate();
@@ -124,32 +124,88 @@ public class BookDAO {
         }
     }
 
-    public void removeBookRead(String title, String author, int userId) {
-        String sql;
-
-        // If author is provided, include it in the WHERE clause
-        if (author != null && !author.isEmpty()) {
-            sql = "DELETE FROM booksread WHERE user_id = ? AND title = ? AND author = ?";
-        } else {
-            // If author is not provided, only use title for deletion
-            sql = "DELETE FROM booksread WHERE user_id = ? AND title = ?";
-        }
+    public void removeBookRead(int bookId, int userId) {
+        String sql = "DELETE FROM books_read WHERE user_id = ? AND book_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, userId);
-            statement.setString(2, title);
-
-            // If author is provided, bind the author parameter
-            if (author != null && !author.isEmpty()) {
-                statement.setString(3, author);
-            }
+            statement.setInt(2, bookId);
 
             statement.executeUpdate();
 
         } catch (SQLException e) {
             System.err.println("Error while removing book: " + e.getMessage());
+        }
+    }
+
+    public int getBookIdByTitleAndAuthor(String title, String author) {
+        String sql = "SELECT book_id FROM books WHERE title = ? AND author = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, title);
+            stmt.setString(2, author);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("book_id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting book_id: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return -1; // or throw an exception if you prefer
+    }
+
+    public String getCoverUrlByBookId(int bookId) {
+        String sql = "SELECT cover_url FROM book_covers WHERE book_id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, bookId);
+
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                return result.getString("cover_url");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving cover URL: " + e.getMessage());
+        }
+
+        return null;  // return null if no cover URL is found
+    }
+
+    public void addBook(Book book) {
+        String sql = "INSERT INTO books (title, author, genre, tone, pace, protagonist, ending, action_or_development, romance, twist, supernatural, setting, length, style, themes) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getGenre());
+            stmt.setString(4, book.getTone());
+            stmt.setString(5, book.getPace());
+            stmt.setString(6, book.getProtagonist());
+            stmt.setString(7, book.getEnding());
+            stmt.setString(8, book.getActionDevelopment());
+            stmt.setString(9, book.getRomanceLevel());
+            stmt.setString(10, book.getTwists());
+            stmt.setString(11, book.getSupernatural());
+            stmt.setString(12, book.getSetting());
+            stmt.setString(13, book.getLength());
+            stmt.setString(14, book.getWritingStyle());
+            stmt.setString(15, book.getThemes());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

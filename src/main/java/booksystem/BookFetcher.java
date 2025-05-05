@@ -1,14 +1,21 @@
 package booksystem;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import javax.xml.crypto.Data;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.*;
 
 public class BookFetcher {
@@ -206,6 +213,159 @@ public class BookFetcher {
             System.err.println("Error processing a book: "+ e.getMessage());
         }
     }
+
+    public static void insertBookIntoDatabase(JSONObject book) {
+        try {
+            String title = book.optString("title", "Unknown Title");
+
+            String author = "Unknown";
+            if (book.has("author_name")) {
+                Object authorsObj = book.get("author_name");
+                if (authorsObj instanceof JSONArray) {
+                    JSONArray authorsArray = (JSONArray) authorsObj;
+                    if (!authorsArray.isEmpty()) {
+                        author = authorsArray.optString(0, "Unknown");
+                    }
+                } else if (authorsObj instanceof String) {
+                    author = (String) authorsObj;
+                }
+            }
+
+            JSONObject detailedBook = fetchBookData(title, author);
+            if (detailedBook == null || !detailedBook.has("key")) {
+                System.out.println("No detailed data for: " + title);
+                return;
+            }
+
+            String workKey = detailedBook.getString("key"); // like "/works/OL123W"
+            JSONObject workDetails = fetchJson("https://openlibrary.org" + workKey + ".json");
+
+            List<String> allSubjects = new ArrayList<>();
+            if (workDetails != null) {
+                for (String field : List.of("subjects", "subject_people", "subject_places", "subject_times")) {
+                    JSONArray array = workDetails.optJSONArray(field);
+                    if (array != null) {
+                        for (int i = 0; i < array.length(); i++) {
+                            allSubjects.add(array.getString(i));
+                        }
+                    }
+                }
+            }
+
+            String length = "NA";
+            JSONObject edition = fetchFirstEdition(workDetails);
+            if (edition != null && edition.has("number_of_pages")) {
+                try {
+                    int pages = edition.getInt("number_of_pages");
+                    length = mapLengthByPages(pages);
+                } catch (Exception e) {
+                    System.out.println("Failed to parse page count from edition for: " + title);
+                }
+            }
+
+            // Map subject tags to your allowed categories
+            String genre = mapToAllowedValue(allSubjects, ALLOWED_GENRES);
+            String tone = mapToAllowedValue(allSubjects, ALLOWED_TONES);
+            String pace = mapToAllowedValue(allSubjects, ALLOWED_PACES);
+            String protagonist = mapToAllowedValue(allSubjects, ALLOWED_PROTAGONISTS);
+            String ending = mapToAllowedValue(allSubjects, ALLOWED_ENDINGS);
+            String actionDev = mapToAllowedValue(allSubjects, ALLOWED_ACTION_DEV);
+            String romance = mapToAllowedValue(allSubjects, ALLOWED_ROMANCE);
+            String twist = mapToAllowedValue(allSubjects, ALLOWED_TWISTS);
+            String supernatural = mapToAllowedValue(allSubjects, ALLOWED_SUPERNATURAL);
+            String setting = mapToAllowedValue(allSubjects, ALLOWED_SETTINGS);
+            String style = mapToAllowedValue(allSubjects, ALLOWED_STYLES);
+            String theme = mapToAllowedValue(allSubjects, ALLOWED_THEMES);
+
+            // Build Book object
+            Book newBook = new Book();
+            newBook.setTitle(title);
+            newBook.setAuthor(author);
+            newBook.setGenre(genre);
+            newBook.setTone(tone);
+            newBook.setPace(pace);
+            newBook.setProtagonist(protagonist);
+            newBook.setEnding(ending);
+            newBook.setActionDevelopment(actionDev);
+            newBook.setRomanceLevel(romance);
+            newBook.setTwists(twist);
+            newBook.setSupernatural(supernatural);
+            newBook.setSetting(setting);
+            newBook.setLength(length);
+            newBook.setWritingStyle(style);
+            newBook.setThemes(theme);
+
+            // Insert into DB using DAO
+            BookDAO bookDAO = new BookDAO();
+            bookDAO.addBook(newBook);
+
+        } catch (Exception e) {
+            System.err.println("Error inserting book into database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static Book parseBookFromJson(JSONObject bookJson) {
+        Book book = new Book();
+
+        String title = bookJson.optString("title", "Unknown Title");
+
+        String author = "Unknown";
+        if (bookJson.has("author_name")) {
+            Object authorsObj = bookJson.get("author_name");
+            if (authorsObj instanceof JSONArray) {
+                JSONArray authorsArray = (JSONArray) authorsObj;
+                if (!authorsArray.isEmpty()) {
+                    author = authorsArray.optString(0, "Unknown");
+                }
+            } else if (authorsObj instanceof String) {
+                author = (String) authorsObj;
+            }
+        }
+
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setGenre("Unknown"); // default or fetched genre
+        book.setTone("Unknown");
+        book.setPace("Unknown");
+        book.setProtagonist("Unknown");
+        book.setEnding("Unknown");
+        book.setActionDevelopment("Unknown");
+        book.setRomanceLevel("Unknown");
+        book.setTwists("Unknown");
+        book.setSupernatural("Unknown");
+        book.setSetting("Unknown");
+        book.setLength("Unknown");
+        book.setWritingStyle("Unknown");
+        book.setThemes("Unknown");
+
+        return book;
+    }
+
+
+    public static JSONObject searchBookByTitleAndAuthor(String title, String author) {
+        try {
+            // Construct the URL-encoded query
+            String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8);
+            String encodedAuthor = URLEncoder.encode(author, StandardCharsets.UTF_8);
+
+            String apiUrl = "https://openlibrary.org/search.json?title=" + encodedTitle + "&author=" + encodedAuthor;
+
+            // Fetch JSON from the API
+            JSONObject result = fetchJson(apiUrl);
+
+            if (result != null && result.has("docs")) {
+                JSONArray docs = result.getJSONArray("docs");
+                if (!docs.isEmpty()) {
+                    return docs.getJSONObject(0); // Return the first matching result
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to search book by title and author: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     public static void main(String[] args){
         System.out.println("BookFetcher running");

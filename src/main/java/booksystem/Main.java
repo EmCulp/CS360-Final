@@ -2,6 +2,7 @@ package booksystem;
 
 import static spark.Spark.*;
 
+import org.json.JSONObject;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
@@ -141,11 +142,71 @@ public class Main {
 
            List<Book> booksRead = bookDAO.getBooksReadByUser(userId);
 
+           for(Book book : booksRead){
+               String coverURL = bookDAO.getCoverUrlByBookId(book.getBookId());
+               book.setUrl(coverURL);
+           }
+
            Map<String, Object> model = new HashMap<>();
-           model.put("books", booksRead);
+           model.put("booksRead", booksRead);
 
             return new MustacheTemplateEngine().render(new ModelAndView(model, "BooksRead.html"));
         });
+
+        post("/BooksRead", (req, res) -> {
+            int userId = req.session().attribute("user_id");
+
+            String action = req.queryParams("action"); // "add" or "remove"
+            String title = req.queryParams("title");
+            String author = req.queryParams("author");
+            String ratingStr = req.queryParams("rating");
+            String spiceStr = req.queryParams("spice");
+
+            BookDAO bookDAO = new BookDAO();
+            int bookId = bookDAO.getBookIdByTitleAndAuthor(title, author);
+
+            System.out.println("Book ID: " +bookId);
+
+            if (action.equals("addBook")) {
+                // If book isn't in database, fetch and insert it
+                if (bookId == -1) {
+                    JSONObject openLibBook = BookFetcher.searchBookByTitleAndAuthor(title, author);
+                    if (openLibBook != null) {
+                        try {
+                            // Insert the book into your books table
+                            BookFetcher.insertBookIntoDatabase(openLibBook);
+
+                            // Create a Book object and insert into DB
+                            Book newBook = BookFetcher.parseBookFromJson(openLibBook); // You define this method
+                            bookDAO.addBook(newBook);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // Try again to get the bookId
+                    bookId = bookDAO.getBookIdByTitleAndAuthor(title, author);
+                    System.out.println("Book ID Part 2: " +bookId);
+                }
+
+                if (bookId != -1) {
+                    Book book = new Book();
+                    book.setBookId(bookId);
+                    book.setRating(ratingStr != null && !ratingStr.isEmpty() ? Double.parseDouble(ratingStr) : 0.0);
+                    book.setSpice(spiceStr != null && !spiceStr.isEmpty() ? Double.parseDouble(spiceStr) : 0.0);
+
+                    bookDAO.addBookRead(book, userId);
+                }
+
+            } else if (action.equals("removeBook") && bookId != -1) {
+                bookDAO.removeBookRead(bookId, userId);
+            }
+
+            res.redirect("/BooksRead");
+            return null;
+        });
+
 
     }
 
