@@ -63,3 +63,26 @@ hr{
     border: 0;
     border-top: 1px solid #ccc;
 }
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for the button */
+.nav-button {
+    margin: 20px auto;
+    background-color: #E0C7A1;
+    color: #3E2A47;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #d2b88a;
+}

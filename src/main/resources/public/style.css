@@ -13,9 +13,14 @@ header{
     color: #3E2A47;
 }
 
+.nav-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .nav-button {
-    display: block;
-    margin: 20px auto 0;
+    margin: 20px auto;
     background-color: #E0C7A1;
     color: #3E2A47;
     padding: 10px 20px;
