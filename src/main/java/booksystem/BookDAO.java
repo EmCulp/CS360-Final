@@ -32,12 +32,16 @@ public class BookDAO {
                 "  SELECT MAX(submission_id) FROM userpreferences WHERE user_id = ? " +
                 ") " +
                 "LEFT JOIN book_covers bc ON bc.book_id = b.book_id " +
+                "WHERE NOT EXISTS ( " +
+                " SELECT 1 FROM books_read br WHERE br.user_id = ? AND br.book_id = b.book_id "+
+                " ) " +
                 "ORDER BY match_score DESC " +
                 "LIMIT 10";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userId);     //main query
             stmt.setInt(2, userId);     //submission_id selection
+            stmt.setInt(3, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Book book = new Book();
