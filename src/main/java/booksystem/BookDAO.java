@@ -12,15 +12,24 @@ public class BookDAO {
         List<Book> recommendedBooks = new ArrayList<>();
 
         String query = "SELECT DISTINCT b.*, bc.cover_url, " +
-                "((b.genre = u.genre) + (b.tone = u.tone) + (b.pace = u.pace) + " +
-                "(b.protagonist = u.protagonist) + (b.ending = u.ending) + " +
-                "(b.action_or_development = u.action_dev) + (b.romance = u.romance) + " +
-                "(b.twist = u.twist) + (b.supernatural = u.supernatural) + " +
-                "(b.setting = u.setting) + (b.length = u.length) + " +
-                "(b.style = u.style) + (b.themes = u.theme)) AS match_score " +
+                "(" +
+                "  IF(b.genre = u.genre, 1, 0) + " +
+                "  IF(b.tone = u.tone, 1, 0) + " +
+                "  IF(b.pace = u.pace, 1, 0) + " +
+                "  IF(b.protagonist = u.protagonist, 1, 0) + " +
+                "  IF(b.ending = u.ending, 1, 0) + " +
+                "  IF(b.action_or_development = u.action_dev, 1, 0) + " +
+                "  IF(b.romance = u.romance, 1, 0) + " +
+                "  IF(b.twist = u.twist, 1, 0) + " +
+                "  IF(b.supernatural = u.supernatural, 1, 0) + " +
+                "  IF(b.setting = u.setting, 1, 0) + " +
+                "  IF(b.length = u.length, 1, 0) + " +
+                "  IF(b.style = u.style, 1, 0) + " +
+                "  IF(b.themes = u.theme, 1, 0) " +
+                ") AS match_score " +
                 "FROM books b " +
                 "JOIN userpreferences u ON u.user_id = ? AND u.submission_id = ( " +
-                " SELECT MAX(submission_id) from userpreferences WHERE user_id = ? " +
+                "  SELECT MAX(submission_id) FROM userpreferences WHERE user_id = ? " +
                 ") " +
                 "LEFT JOIN book_covers bc ON bc.book_id = b.book_id " +
                 "ORDER BY match_score DESC " +
