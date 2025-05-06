@@ -1,3 +1,23 @@
+/*******************************************************************
+ * Book Recommendation System - BookDAO Class *
+ * *
+ * PROGRAMMER: Emily Culp *
+ * COURSE: CS360 - Analysis / Algorithms *
+ * DATE: May 6, 2025 *
+ * REQUIREMENT: Final *
+ * *
+ * DESCRIPTION: *
+ * This file contains the BookDAO class, which handles database access *
+ * and operations related to books. It includes functionality for retrieving *
+ * recommended books, managing user book history, and accessing book metadata. *
+ * *
+ * COPYRIGHT: This code is copyright (C) 2025 Emily Culp *
+ * *
+ * CREDITS: *
+ * ChatGPT by OpenAI was used for generating documentation. *
+ * *
+ ***********************************/
+
 package booksystem;
 
 import com.mysql.cj.exceptions.StreamingNotifiable;
@@ -8,6 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO {
+    /**********************************************************
+     * METHOD: getTopRecommendedBooks *
+     * DESCRIPTION: Retrieves a list of top recommended books for a specific user. *
+     * PARAMETERS: int userId - the ID of the user to recommend books for *
+     *             Connection conn - the database connection *
+     * RETURN VALUE: List<Book> - a list of recommended books *
+     **********************************************************/
     public List<Book> getTopRecommendedBooks(int userId, Connection conn) throws SQLException {
         List<Book> recommendedBooks = new ArrayList<>();
 
@@ -71,6 +98,12 @@ public class BookDAO {
         return recommendedBooks;
     }
 
+    /**********************************************************
+     * METHOD: getBooksReadByUser *
+     * DESCRIPTION: Returns a list of books the user has previously read. *
+     * PARAMETERS: int userId - the ID of the user *
+     * RETURN VALUE: List<Book> - a list of books read by the user *
+     **********************************************************/
     public List<Book> getBooksReadByUser(int userId){
         List<Book> books = new ArrayList<>();
         String sql = """
@@ -106,6 +139,13 @@ public class BookDAO {
         return books;
     }
 
+    /**********************************************************
+     * METHOD: addBookRead *
+     * DESCRIPTION: Records that a user has read a specific book. *
+     * PARAMETERS: Book book - the book object to add *
+     *             int userId - the ID of the user *
+     * RETURN VALUE: void *
+     **********************************************************/
     public void addBookRead(Book book, int userId){
         String sql = "INSERT INTO books_read (user_id, book_id, rating, spice) VALUES (?, ?, ?, ?) ";
 
@@ -137,6 +177,13 @@ public class BookDAO {
         }
     }
 
+    /**********************************************************
+     * METHOD: removeBookRead *
+     * DESCRIPTION: Removes a book from the list of books a user has read. *
+     * PARAMETERS: int bookId - the ID of the book *
+     *             int userId - the ID of the user *
+     * RETURN VALUE: void *
+     **********************************************************/
     public void removeBookRead(int bookId, int userId) {
         String sql = "DELETE FROM books_read WHERE user_id = ? AND book_id = ?";
 
@@ -153,6 +200,13 @@ public class BookDAO {
         }
     }
 
+    /**********************************************************
+     * METHOD: getBookIdByTitleAndAuthor *
+     * DESCRIPTION: Retrieves the book ID based on its title and author. *
+     * PARAMETERS: String title - the title of the book *
+     *             String author - the author of the book *
+     * RETURN VALUE: int - the ID of the book if found, or -1 if not found *
+     **********************************************************/
     public int getBookIdByTitleAndAuthor(String title, String author) {
         String sql = "SELECT book_id FROM books WHERE title = ? AND author = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -172,6 +226,12 @@ public class BookDAO {
         return -1; // or throw an exception if you prefer
     }
 
+    /**********************************************************
+     * METHOD: getCoverUrlByBookId *
+     * DESCRIPTION: Gets the cover image URL for a specific book by its ID. *
+     * PARAMETERS: int bookId - the ID of the book *
+     * RETURN VALUE: String - the URL of the book cover image *
+     **********************************************************/
     public String getCoverUrlByBookId(int bookId) {
         String sql = "SELECT cover_url FROM book_covers WHERE book_id = ?";
 
@@ -193,6 +253,12 @@ public class BookDAO {
         return null;  // return null if no cover URL is found
     }
 
+    /**********************************************************
+     * METHOD: addBook *
+     * DESCRIPTION: Adds a new book to the database. *
+     * PARAMETERS: Book book - the book object to add *
+     * RETURN VALUE: void *
+     **********************************************************/
     public void addBook(Book book) {
         String sql = "INSERT INTO books (title, author, genre, tone, pace, protagonist, ending, action_or_development, romance, twist, supernatural, setting, length, style, themes) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

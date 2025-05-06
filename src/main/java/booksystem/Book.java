@@ -1,3 +1,25 @@
+/*******************************************************************
+ * Book Recommendation System - Book Class *
+ * *
+ * PROGRAMMER: Emily Culp *
+ * COURSE: CS360 - Analysis / Algorithms *
+ * DATE: May 6, 2025 *
+ * REQUIREMENT: Final *
+ * *
+ * DESCRIPTION: *
+ * This file defines the Book class, which serves as a model to store *
+ * and manage data about books, including metadata like title, author, *
+ * genre, tone, pace, themes, and user-based metrics like rating and spice. *
+ * The class includes various constructors, getter and setter methods, and *
+ * overrides for equals, hashCode, and toString for object comparison and display. *
+ * *
+ * COPYRIGHT: This code is copyright (C) 2025 Emily Culp
+ * *
+ * CREDITS: *
+ * ChatGPT by OpenAI was used for generating documentation. *
+ * *
+ *******************************************************************/
+
 package booksystem;
 
 import java.util.Objects;
@@ -23,6 +45,10 @@ public class Book {
     private double rating;
     private double spice;
 
+    /**********************************************************
+     * CONSTRUCTOR: Book (all attributes) *
+     * DESCRIPTION: Initializes a book with complete metadata. *
+     **********************************************************/
     public Book(int bookId, String title, String author, String genre, String tone, String pace, String protagonist, String ending, String actionDevelopment,
                 String romanceLevel, String twists, String supernatural, String setting, String length,
                 String writingStyle, String themes, String url) {
@@ -45,6 +71,10 @@ public class Book {
         this.url = url;
     }
 
+    /**********************************************************
+     * CONSTRUCTOR: Book (for displaying rated book data) *
+     * DESCRIPTION: Initializes a book with only ID, title, author, rating, spice, and cover URL. *
+     **********************************************************/
     public Book(int bookId, String title, String author, double rating, double spice, String coverURL){
         this.bookId = bookId;
         this.title = title;
@@ -54,12 +84,20 @@ public class Book {
         url = coverURL;
     }
 
+    /**********************************************************
+     * CONSTRUCTOR: Book (only rating and spice) *
+     * DESCRIPTION: Initializes a book object with only ID, rating, and spice level. *
+     **********************************************************/
     public Book(int bookId, double rating, double spice){
         this.bookId = bookId;
         this.rating = rating;
         this.spice = spice;
     }
 
+    /**********************************************************
+     * CONSTRUCTOR: Book (default) *
+     * DESCRIPTION: Initializes all fields to default values (null or 0). *
+     **********************************************************/
     public Book() {
         bookId = 0;
         title = null;
@@ -81,6 +119,10 @@ public class Book {
     }
 
 
+    /**********************************************************
+     * CONSTRUCTOR: Book (title and author) *
+     * DESCRIPTION: Initializes a book with only title and author. *
+     **********************************************************/
     public Book(String title, String author){
         this.title = title;
         this.author = author;
@@ -241,6 +283,12 @@ public class Book {
         this.spice = spice;
     }
 
+    /**********************************************************
+     * METHOD: equals *
+     * DESCRIPTION: Checks if two Book objects are equal based on title and author. *
+     * PARAMETERS: Object obj - the object to compare *
+     * RETURN VALUE: boolean - true if equal, false otherwise *
+     **********************************************************/
     @Override
     public boolean equals(Object obj){
         if (this == obj) return true;
@@ -249,11 +297,21 @@ public class Book {
         return title.equals(book.title) && author.equals(book.author);
     }
 
+    /**********************************************************
+     * METHOD: hashCode *
+     * DESCRIPTION: Generates a hash code based on title and author. *
+     * RETURN VALUE: int - the hash code *
+     **********************************************************/
     @Override
     public int hashCode(){
         return Objects.hash(title, author);
     }
 
+    /**********************************************************
+     * METHOD: toString *
+     * DESCRIPTION: Returns a string in the format: title,author *
+     * RETURN VALUE: String - the string representation of the book *
+     **********************************************************/
     @Override
     public String toString(){
         return title + "," + author;

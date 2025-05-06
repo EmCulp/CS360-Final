@@ -1,3 +1,22 @@
+/*******************************************************************
+ * Book Recommendation System *
+ * *
+ * PROGRAMMER: Emily Culp *
+ * COURSE: CS360 - Analysis/Algorithms *
+ * DATE: May 6, 2025 *
+ * REQUIREMENT: Final *
+ * *
+ * DESCRIPTION: *
+ * This file contains the entry point of the program. It initializes the *
+ * database connection and handles the launch/run of the application. *
+ * *
+ * COPYRIGHT: This code is copyright (C) 2025 Emily Culp *
+ * *
+ * CREDITS: *
+ * ChatGPT by OpenAI was used for generating documentation. *
+ * *
+ *******************************************************************/
+
 package booksystem;
 
 import static spark.Spark.*;
@@ -15,9 +34,23 @@ import java.util.Map;
 
 public class Main {
 
+    /**********************************************************
+     * METHOD: Main *
+     * DESCRIPTION: Constructor initializes database connection. *
+     * PARAMETERS: None *
+     * RETURN VALUE: None *
+     **********************************************************/
+
     private final DatabaseConnection databaseConnection;
 
     // Inject the DatabaseConnection bean via constructor
+
+    /**********************************************************
+     * METHOD: main *
+     * DESCRIPTION: The main method to start the program. *
+     * PARAMETERS: String[] args - command-line arguments *
+     * RETURN VALUE: None *
+     **********************************************************/
 
     public Main() {
         this.databaseConnection = new DatabaseConnection();

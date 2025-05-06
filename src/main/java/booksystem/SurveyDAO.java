@@ -1,3 +1,23 @@
+/*******************************************************************
+ * Book Recommendation System - SurveyDAO Class *
+ * *
+ * PROGRAMMER: Emily Culp *
+ * COURSE: CS360 - Analysis / Algorithms *
+ * DATE: May 6, 2025 *
+ * REQUIREMENT: Final *
+ * *
+ * DESCRIPTION: *
+ * This file contains the SurveyDAO class, which manages database operations *
+ * related to survey responses, including saving user preferences, retrieving *
+ * submission IDs, and mapping answer options to database values. *
+ * *
+ * COPYRIGHT: This code is copyright (C) 2025 Emily Culp *
+ * *
+ * CREDITS: *
+ * ChatGPT by OpenAI was used for generating documentation. *
+ * *
+ *******************************************************************/
+
 package booksystem;
 
 import java.sql.*;
@@ -8,6 +28,12 @@ import java.util.Map;
 public class SurveyDAO {
     private final Connection conn;
 
+    /**********************************************************
+     * METHOD: SurveyDAO (Constructor) *
+     * DESCRIPTION: Initializes the SurveyDAO object. Typically used to setup any DAO-specific state. *
+     * PARAMETERS: None *
+     * RETURN VALUE: None *
+     **********************************************************/
     public SurveyDAO(){
         try {
             this.conn = DatabaseConnection.getConnection();
@@ -16,6 +42,15 @@ public class SurveyDAO {
         }
     }
 
+    /**********************************************************
+     * METHOD: saveSurveyResponses *
+     * DESCRIPTION: Saves the survey response to the database for a specific question and user. *
+     * PARAMETERS: SurveyResponse response - the response object containing selected answers *
+     *             int questionId - ID of the question being answered *
+     *             int userId - ID of the user submitting the response *
+     *             int submissionId - unique ID for this survey submission *
+     * RETURN VALUE: void *
+     **********************************************************/
     public void saveSurveyResponses(SurveyResponse response, int questionId, int userId, int submissionId) throws SQLException {
         try (Connection conn = DatabaseConnection.getConnection()) {
             // Get all valid options for this question from DB
@@ -43,6 +78,13 @@ public class SurveyDAO {
         }
     }
 
+    /**********************************************************
+     * METHOD: getAnswerOptionsMap *
+     * DESCRIPTION: Retrieves a mapping of answer text to answer option IDs for a given question. *
+     * PARAMETERS: Connection conn - the database connection *
+     *             int questionId - the ID of the question to retrieve options for *
+     * RETURN VALUE: Map<String, Integer> - a mapping of answer text to corresponding option IDs *
+     **********************************************************/
     private Map<String, Integer> getAnswerOptionsMap(Connection conn, int questionId) throws SQLException {
         Map<String, Integer> optionsMap = new HashMap<>();
 
@@ -60,6 +102,12 @@ public class SurveyDAO {
         return optionsMap;
     }
 
+    /**********************************************************
+     * METHOD: getNextSubmissionId *
+     * DESCRIPTION: Generates and returns the next available submission ID for a user. *
+     * PARAMETERS: int userId - the ID of the user for whom the ID is being generated *
+     * RETURN VALUE: int - the next available submission ID *
+     **********************************************************/
     public int getNextSubmissionId(int userId) {
         String sql = "SELECT COALESCE(MAX(submission_id), 0) + 1 FROM usersurveyanswers WHERE user_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -75,6 +123,13 @@ public class SurveyDAO {
         return 1; // Start at 1 if nothing exists
     }
 
+    /**********************************************************
+     * METHOD: saveUserPreferences *
+     * DESCRIPTION: Saves user preferences associated with a specific survey submission. *
+     * PARAMETERS: int userId - the user's ID *
+     *             int submissionId - the submission ID linked to the user's survey *
+     * RETURN VALUE: void *
+     **********************************************************/
     public void saveUserPreferences(int userId, int submissionId) throws SQLException {
         String insertQuery =
                 "INSERT INTO userpreferences (user_id, submission_id, genre, tone, pace, protagonist, " +
@@ -108,6 +163,13 @@ public class SurveyDAO {
         }
     }
 
+    /**********************************************************
+     * METHOD: insertSubmission *
+     * DESCRIPTION: Inserts a new record into the database for a user survey submission. *
+     * PARAMETERS: int userId - the ID of the user submitting the survey *
+     *             int submissionId - unique ID for the survey submission *
+     * RETURN VALUE: void *
+     **********************************************************/
     public void insertSubmission(int userId, int submissionId) throws SQLException {
         String query = "INSERT INTO submissions (submission_id, user_id, submitted_at) VALUES (?, ?, NOW())";
         try (Connection conn = DatabaseConnection.getConnection();

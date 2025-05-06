@@ -1,3 +1,25 @@
+/*******************************************************************
+ * Book Recommendation System *
+ * *
+ * PROGRAMMER: Emily Culp *
+ * COURSE: CS360 - Analysis/Algorithms *
+ * DATE: May 6, 2025 *
+ * REQUIREMENT: Final *
+ * *
+ * DESCRIPTION: *
+ * This class provides functionality for retrieving book
+ * cover images from the Open Library API and storing cover
+ * URLs in a local DB. It also includes helper methods
+ * for validating authors and checking existing cover entries.
+ *
+ * COPYRIGHT: This code is copyright (C) 2025 Emily Culp *
+ * *
+ * CREDITS: *
+ * ChatGPT by OpenAI was used for generating documentation. *
+ * *
+ *******************************************************************/
+
+
 package booksystem;
 
 import org.json.JSONArray;
@@ -17,6 +39,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BookCoverFetcher {
+    /**********************************************************
+     * METHOD: fetchCoverUrl *
+     * DESCRIPTION: Fetches a cover image URL for the given book title *
+     *              and author using the OpenLibrary API. *
+     * PARAMETERS: bookTitle - title of the book (String) *
+     *             author - author of the book (String) *
+     * RETURN VALUE: The URL of the book cover image (String), or null if not found. *
+     **********************************************************/
     public String fetchCoverUrl(String bookTitle, String author){
         try{
             String apiURL = "https://openlibrary.org/search.json?title=" +
@@ -51,6 +81,13 @@ public class BookCoverFetcher {
         }
     }
 
+    /**********************************************************
+     * METHOD: saveCover *
+     * DESCRIPTION: Saves the cover URL to the database for a specific book. *
+     * PARAMETERS: bookId - ID of the book (int) *
+     *             coverURL - URL of the cover image (String) *
+     * RETURN VALUE: None *
+     **********************************************************/
     public void saveCover(int bookId, String coverURL){
         try(Connection conn = DatabaseConnection.getConnection()){
             String sql = "INSERT INTO book_covers (book_id, cover_url) VALUES (?, ?)";
@@ -64,6 +101,13 @@ public class BookCoverFetcher {
         }
     }
 
+    /**********************************************************
+     * METHOD: getBookInfoById *
+     * DESCRIPTION: Retrieves the book title and author from the database *
+     *              using the given book ID. *
+     * PARAMETERS: bookId - ID of the book (int) *
+     * RETURN VALUE: Map containing "title" and "author" keys with corresponding values *
+     **********************************************************/
     // Get the book title from the books table
     public Map<String, String> getBookInfoById(int bookId) {
         String sql = "SELECT title, author FROM books WHERE book_id = ?";
@@ -82,6 +126,13 @@ public class BookCoverFetcher {
         return info;
     }
 
+    /**********************************************************
+     * METHOD: isInvalidAuthor *
+     * DESCRIPTION: Checks whether an author field is invalid, such as *
+     *              being null, placeholder, or a genre instead of a name. *
+     * PARAMETERS: author - author name (String) *
+     * RETURN VALUE: true if invalid, false otherwise *
+     **********************************************************/
     private boolean isInvalidAuthor(String author){
         if(author == null || author.trim().equalsIgnoreCase("?????")){
             return true;
@@ -104,6 +155,13 @@ public class BookCoverFetcher {
         return false;
     }
 
+    /**********************************************************
+     * METHOD: coverExists *
+     * DESCRIPTION: Checks whether a cover already exists for a given book ID *
+     *              in the book_covers table. *
+     * PARAMETERS: bookId - ID of the book (int) *
+     * RETURN VALUE: true if a cover exists, false otherwise *
+     **********************************************************/
     private boolean coverExists(int bookId) {
         String sql = "SELECT 1 FROM book_covers WHERE book_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -117,7 +175,13 @@ public class BookCoverFetcher {
         }
     }
 
-
+    /**********************************************************
+     * METHOD: main *
+     * DESCRIPTION: Main method for fetching and saving book covers for *
+     *              all books in a given range of book IDs. *
+     * PARAMETERS: args - command line arguments *
+     * RETURN VALUE: None *
+     **********************************************************/
     public static void main(String[] args) {
         BookCoverFetcher fetcher = new BookCoverFetcher();
 
